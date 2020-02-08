@@ -20,7 +20,6 @@ SOURCES += \
         Repositories/irepository.cpp \
         Services/clubservice.cpp \
         clubsviewmodel.cpp \
-        clubview.cpp \
         main.cpp \
         test.cpp
 
@@ -39,12 +38,22 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    Models/ModelsHeader.h \
+    Models/basemodel.h \
+    Models/club.h \
+    Models/clubstaff.h \
+    Models/coach.h \
+    Models/imodel.h \
+    Models/player.h \
+    Models/playerjourney.h \
+    Models/record.h \
+    Models/stadium.h \
+    Models/staff.h \
     Repositories/baserepository.h \
     Repositories/clubsrepository.h \
     Repositories/irepository.h \
     Services/clubservice.h \
     clubsviewmodel.h \
-    clubview.h \
     test.h
 
 DISTFILES += \

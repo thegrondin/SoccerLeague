@@ -2,15 +2,22 @@
 #include <QQmlApplicationEngine>
 #include <QQuickView>
 #include "clubsviewmodel.h"
-#include "clubview.h"
+#include "Models/club.h"
+#include "Models/player.h"
 #include <QQmlContext>
 #include <QSqlDatabase>
 #include <QSqlDriver>
 #include <QSqlError>
 #include <QSqlQuery>
 
+using namespace SoccerLeague::Models;
+
 int main(int argc, char *argv[])
 {
+
+
+
+
     const QString Driver("QSQLITE");
 
     if (!QSqlDatabase::isDriverAvailable(Driver)) {
@@ -39,7 +46,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    engine.rootContext()->setContextProperty("clubViewModelContext", new ClubsViewModel(ClubView()));
+  //  engine.rootContext()->setContextProperty("clubViewModelContext", new ClubsViewModel(Club()));
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

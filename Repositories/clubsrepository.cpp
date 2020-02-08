@@ -11,7 +11,8 @@ ClubsRepository::~ClubsRepository() {
 
 /**
 
-    /*QSqlQuery testquery;
+    /*
+     * QSqlQuery testquery;
 
     testquery.exec("SELECT * from TEST");
 
@@ -29,22 +30,22 @@ ClubsRepository::~ClubsRepository() {
     query.bindValue(":surname", "Simpson");
     query.exec();*/
 
-ClubView ClubsRepository::update(const ClubView &item){
-    return ClubView();
+Club ClubsRepository::update(const Club &item){
+    return Club();
 }
 
-ClubView ClubsRepository::add(const ClubView &item) {
+Club ClubsRepository::add(const Club &item) {
 
     QSqlQuery query;
-    query.prepare("INSERT INTO Clubs (id, club_effective_id, stadium_id, club_staff_id, history, color, created_at, city_name)"
+    query.prepare("INSERT INTO Clubs (id, club_members_id, stadium_id, club_staff_id, history, color, created_at, city_name)"
                   "VALUES (:id, :club_effective_id, :statium_id, :club_staff_id, :history, :color, :created_at, :city_name)");
 
     //query.bindValue(":id", item.)
     // ...
-    return ClubView();
+    return Club();
 }
 
-bool ClubsRepository::remove(const ClubView &item) {
+bool ClubsRepository::remove(const Club &item) {
     return false;
 }
 
@@ -52,11 +53,11 @@ bool ClubsRepository::removeById(const int &id) {
     return false;
 }
 
-ClubView ClubsRepository::getById(const int &id) {
-    return ClubView();
+Club ClubsRepository::getById(const int &id) {
+    return Club();
 }
 
-ClubView ClubsRepository::getByProperty(const QString &propertyName) {
-    return ClubView();
+Club ClubsRepository::getByProperty(const QString &propertyName) {
+    return Club();
 }
 
