@@ -6,5 +6,6 @@
         <file>ClubsView.qml</file>
         <file>page2.qml</file>
         <file>page3.qml</file>
+        <file>PlayerView.qml</file>
     </qresource>
 </RCC>

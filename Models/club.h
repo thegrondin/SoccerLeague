@@ -25,7 +25,7 @@ class Club : public BaseModel
 {
     Q_OBJECT
 private:
-    QVector<std::shared_ptr<Player>> clubEffective_;
+    std::shared_ptr<QVector<std::shared_ptr<Player>>> clubEffective_;
     std::shared_ptr<Stadium> stadium_;
     QVector<Staff> clubStaff_;
     QVector<Title> titles_;
@@ -66,11 +66,11 @@ public:
         titles_ = titles;
     }
 
-    QVector<std::shared_ptr<Player>> getClubEffective() const  {
+    std::shared_ptr<QVector<std::shared_ptr<Player>>> getClubEffective() const  {
         return clubEffective_;
     }
 
-    void setClubEffective(const QVector<std::shared_ptr<Player>>& clubEffective) {
+    void setClubEffective(const std::shared_ptr<QVector<std::shared_ptr<Player>>>& clubEffective) {
         clubEffective_ = clubEffective;
     }
 

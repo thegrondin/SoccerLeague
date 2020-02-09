@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     engine.rootContext()->setContextProperty("clubViewModelContext", new ClubsViewModel(Club()));
+    engine.rootContext()->setContextProperty("playerViewModelContext", new PlayerViewModel());
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

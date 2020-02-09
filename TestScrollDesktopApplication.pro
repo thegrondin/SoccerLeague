@@ -23,6 +23,7 @@ SOURCES += \
         Repositories/irepository.cpp \
         Repositories/stadiumrepository.cpp \
         Services/clubservice.cpp \
+        ViewModels/playerviewmodel.cpp \
         clubsviewmodel.cpp \
         main.cpp \
         test.cpp
@@ -60,6 +61,7 @@ HEADERS += \
     Repositories/irepository.h \
     Repositories/stadiumrepository.h \
     Services/clubservice.h \
+    ViewModels/playerviewmodel.h \
     clubsviewmodel.h \
     test.h
 
