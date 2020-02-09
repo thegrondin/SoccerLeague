@@ -6,9 +6,13 @@
 #include <memory>
 #include <QVector>
 
+#include "ModelsHeader.h"
+
 #include "basemodel.h"
 #include "stadium.h"
 #include "clubstaff.h"
+#include "title.h"
+
 
 /*
  * query.prepare("INSERT INTO Clubs (id, club_members_id, stadium_id, club_staff_id, history, color, created_at, city_name)"
@@ -16,75 +20,82 @@
 
 namespace SoccerLeague { namespace Models {
 
-class Player;
+
 class Club : public BaseModel
 {
+    Q_OBJECT
 private:
     QVector<std::shared_ptr<Player>> clubEffective_;
-    //Stadium stadium_;
-    QVector<ClubStaff> clubStaff_;
+    std::shared_ptr<Stadium> stadium_;
+    QVector<Staff> clubStaff_;
+    QVector<Title> titles_;
     QString history_;
     QString color_;
     QDateTime createdAt_;
     QString cityName_;
+
+    Q_PROPERTY(QString history READ getHistory WRITE setHistory NOTIFY historyChanged);
+    Q_PROPERTY(Stadium* stadium READ getStadium);
+
+signals:
+    void historyChanged(const QString& arg);
 public:
 
     Club(const int& id,
-         const QVector<std::shared_ptr<Player>>& clubEffective,
-         const Stadium& stadium,
-         const QVector<ClubStaff>& clubStaff,
          const QString& history,
          const QString& color,
          const QDateTime& createdAt,
          const QString& cityName) :
         BaseModel(id),
-        clubEffective_(clubEffective),
-        //stadium_(stadium),
-        clubStaff_(clubStaff),
         history_(history),
         color_(color),
         createdAt_(createdAt),
         cityName_(cityName) { }
 
-    Club() : BaseModel(0) ,
-        clubEffective_(QVector<std::shared_ptr<Player>>()),
-       // stadium_(Stadium()),
-        clubStaff_(QVector<ClubStaff>()),
+    Club() : BaseModel(0),
         history_(QString()),
         color_(QString()),
         createdAt_(QDateTime()),
         cityName_(QString()) { }
 
+    QVector<Title> getTitles() const {
+        return titles_;
+    }
+
+    void setTitles(const QVector<Title>& titles) {
+        titles_ = titles;
+    }
+
+    QVector<std::shared_ptr<Player>> getClubEffective() const  {
+        return clubEffective_;
+    }
 
     void setClubEffective(const QVector<std::shared_ptr<Player>>& clubEffective) {
         clubEffective_ = clubEffective;
     }
 
-   /* Stadium getStadium() {
-        return stadium_;
+    Stadium* getStadium() const {
+        return stadium_.get();
     }
 
-    void setStadium(const Stadium& stadium) {
+    void setStadium(const std::shared_ptr<Stadium>& stadium) {
         stadium_ = stadium;
-    }*/
+    }
 
-    QVector<ClubStaff> getClubStaff() {
+    QVector<Staff> getClubStaff() const {
         return clubStaff_;
     }
 
-    void setClubStaff(const QVector<ClubStaff>& clubStaff) {
+    void setClubStaff(const QVector<Staff>& clubStaff) {
         clubStaff_ = clubStaff;
     }
 
-    QString getHistory() {
+    QString getHistory() const {
         return history_;
     }
 
-    void setHistory(const QString& history) {
-        history_ = history;
-    }
 
-    QString getColor() {
+    QString getColor() const {
         return color_;
     }
 
@@ -92,7 +103,7 @@ public:
         color_ = color;
     }
 
-    QDateTime getCreatedAt() {
+    QDateTime getCreatedAt() const {
         return createdAt_;
     }
 
@@ -100,12 +111,21 @@ public:
         createdAt_ = createdAt;
     }
 
-    QString getCityName() {
+    QString getCityName() const {
         return cityName_;
     }
 
     void setCityName(const QString& cityName) {
         cityName_ = cityName;
+    }
+
+public slots:
+    void setHistory(const QString& history) {
+        if (getHistory() != history) {
+             history_ = history;
+            historyChanged(history);
+        }
+
     }
 
 };

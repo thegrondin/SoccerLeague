@@ -8,7 +8,8 @@
 #include <QFloat16>
 #include <QVector>
 #include "playerjourney.h"
-
+#include "ModelsHeader.h"
+#include "memory"
 
 namespace SoccerLeague { namespace Models {
 
@@ -20,7 +21,7 @@ QString firstname_;
 QString lastname_;
 qfloat16 weight_;
 QString birthCity_;
-QVector<PlayerJourney> journey_;
+QVector<std::shared_ptr<PlayerJourney>> journey_;
 std::weak_ptr<Club> club_;
 public:
     Player(const int& id,
@@ -28,15 +29,13 @@ public:
            const QString& lastname,
            const qfloat16& weight,
            const QString& birthCity,
-           const QVector<PlayerJourney>& journey,
-           const std::weak_ptr<Club> club) :
+           const QVector<std::shared_ptr<PlayerJourney>>& journey) :
         BaseModel(id),
         firstname_(firtname),
         lastname_(lastname),
         weight_(weight),
         birthCity_(birthCity),
-        journey_(journey),
-        club_(club) {};
+        journey_(journey){};
 
     Player() :
         BaseModel(0),
@@ -44,16 +43,18 @@ public:
         lastname_(QString()),
         weight_(0.0),
         birthCity_(QString()),
-        journey_(QVector<PlayerJourney>()),
-        club_(std::weak_ptr<Club>()){}
+        journey_(QVector<std::shared_ptr<PlayerJourney>>()){}
 
     QString getFirstname() {return firstname_;}
     QString getLastname() {return lastname_;}
     qfloat16 getWeight() {return weight_;}
     QString getBirthCity() {return birthCity_;}
-    QVector<PlayerJourney> getJourney() {return journey_;}
+    QVector<std::shared_ptr<PlayerJourney>> getJourney() {return journey_;}
+    Club &getClub() { return *club_.lock().get(); }
 
-    Club& getClub() { return *club_.lock().get(); }
+    void setClub(std::weak_ptr<Club> club) {
+        club_ = club;
+    }
 
     void setFirtname(const QString& firtname) {
         firstname_ = firtname;
@@ -67,7 +68,7 @@ public:
         weight_ = weight;
     }
 
-    void setJourney(const QVector<PlayerJourney>& journey) {
+    void setJourney(const QVector<std::shared_ptr<PlayerJourney>>& journey) {
         journey_ = journey;
     }
 };

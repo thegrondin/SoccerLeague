@@ -1,5 +1,6 @@
 QT += quick
 QT += sql
+QT += widgets
 
 CONFIG += c++11
 
@@ -15,9 +16,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        Models/title.cpp \
         Repositories/baserepository.cpp \
         Repositories/clubsrepository.cpp \
+        Repositories/connection.cpp \
         Repositories/irepository.cpp \
+        Repositories/stadiumrepository.cpp \
         Services/clubservice.cpp \
         clubsviewmodel.cpp \
         main.cpp \
@@ -49,9 +53,12 @@ HEADERS += \
     Models/record.h \
     Models/stadium.h \
     Models/staff.h \
+    Models/title.h \
     Repositories/baserepository.h \
     Repositories/clubsrepository.h \
+    Repositories/connection.h \
     Repositories/irepository.h \
+    Repositories/stadiumrepository.h \
     Services/clubservice.h \
     clubsviewmodel.h \
     test.h

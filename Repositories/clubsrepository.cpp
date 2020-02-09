@@ -1,5 +1,5 @@
 #include "clubsrepository.h"
-
+#include<QDebug>
 /*ClubsRepository::ClubsRepository()
 {
 
@@ -30,19 +30,31 @@ ClubsRepository::~ClubsRepository() {
     query.bindValue(":surname", "Simpson");
     query.exec();*/
 
-Club ClubsRepository::update(const Club &item){
-    return Club();
+using namespace SoccerLeague::Repositories;
+
+std::shared_ptr<Club> ClubsRepository::update(const Club &item){
+    return nullptr;
 }
 
-Club ClubsRepository::add(const Club &item) {
+std::shared_ptr<Club> ClubsRepository::add(const Club &item) {
+
+    conn_.open();
 
     QSqlQuery query;
-    query.prepare("INSERT INTO Clubs (id, club_members_id, stadium_id, club_staff_id, history, color, created_at, city_name)"
-                  "VALUES (:id, :club_effective_id, :statium_id, :club_staff_id, :history, :color, :created_at, :city_name)");
+    query.prepare("INSERT INTO Clubs (stadium_id, history, color, created_at, city_name)"
+                  "VALUES (:id, :statium_id, :history, :color, :created_at, :city_name)");
 
-    //query.bindValue(":id", item.)
-    // ...
-    return Club();
+    query.bindValue(":statium_id", QVariant(item.getStadium()->getId()));
+    query.bindValue(":history", QVariant(item.getHistory()));
+    query.bindValue(":color", QVariant(item.getColor()));
+    query.bindValue(":created_at", QVariant(item.getCreatedAt()));
+    query.bindValue(":city_name", QVariant(item.getCityName()));
+
+    query.exec();
+
+    conn_.close();
+
+    return this->getById(item.getId());
 }
 
 bool ClubsRepository::remove(const Club &item) {
@@ -53,11 +65,55 @@ bool ClubsRepository::removeById(const int &id) {
     return false;
 }
 
-Club ClubsRepository::getById(const int &id) {
-    return Club();
+std::shared_ptr<Club> ClubsRepository::getById(const int &id) {
+
+    conn_.open();
+
+    if (conn_.get()->isOpen()) {
+        QSqlQuery query;
+
+        qDebug() << conn_.get()->databaseName();
+
+        query.prepare("SELECT id, history, color, created_at, city_name, stadium_id FROM Clubs WHERE id=:id LIMIT 1");
+        query.bindValue(":id", id);
+
+        query.exec();
+
+        query.first();
+
+/*Club(query.value(0).toInt(),
+                         query.value(1).toString(),
+                         query.value(2).toString(),
+                         query.value(3).toDateTime(),
+                         query.value(4).toString())*/
+
+
+        std::shared_ptr<Club> pClub = std::make_shared<Club>();
+        std::shared_ptr<Stadium> pStadium = std::make_shared<Stadium>();
+
+        pClub->setId(query.value(0).toInt());
+        pClub->setHistory(query.value(1).toString());
+        pClub->setColor(query.value(2).toString());
+        pClub->setCreatedAt(query.value(3).toDateTime());
+        pClub->setCityName(query.value(4).toString());
+
+        pStadium->setId(query.value(5).toInt());
+
+        pClub->setStadium(pStadium);
+
+        conn_.close();
+
+        return pClub;
+
+    }
+
+    return nullptr;
+
 }
 
-Club ClubsRepository::getByProperty(const QString &propertyName) {
-    return Club();
+std::shared_ptr<Club> ClubsRepository::getByProperty(const QString &propertyName) {
+    return nullptr;
 }
+
+std::shared_ptr<QVector<Club>> ClubsRepository::getAll() { return nullptr;}
 

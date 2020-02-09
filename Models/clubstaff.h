@@ -3,10 +3,10 @@
 
 namespace SoccerLeague { namespace Models {
 
-class ClubStaff
+class Staff
 {
 public:
-    ClubStaff();
+    Staff();
 };
 
 }}

@@ -9,50 +9,36 @@
 #include <QSqlDriver>
 #include <QSqlError>
 #include <QSqlQuery>
+#include "Repositories/clubsrepository.h"
+#include <memory>
+#include <QApplication>
 
 using namespace SoccerLeague::Models;
+using namespace SoccerLeague::Repositories;
 
 int main(int argc, char *argv[])
 {
 
 
+    Connection conn("QSQLITE", "C:\\Users\\tomto\\Documents\\SoccerLeague\\soccerleague.db");
+  //  ClubsRepository repo(conn);
+
+  //  std::shared_ptr<Club> club = repo.getById(1);
 
 
-    const QString Driver("QSQLITE");
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    if (!QSqlDatabase::isDriverAvailable(Driver)) {
-        return -1;
-    }
-
-    QSqlDatabase db = QSqlDatabase::addDatabase(Driver);
-
-    //TODO: NEED RELATIVE PATH IN THE FUTURE
-    db.setDatabaseName("/home/thomas/TestScrollDesktopApplication/soccerleague.db");
-    db.open();
-
-    /*QSqlQuery testquery;
-
-    testquery.exec("SELECT * from TEST");
-
-    while (testquery.next()) {
-        int id = testquery.value(0).toInt();
-        QString name = testquery.value(1).toString();
-        qDebug() << id << name;
-    }*/
-
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
 
-  //  engine.rootContext()->setContextProperty("clubViewModelContext", new ClubsViewModel(Club()));
+    engine.rootContext()->setContextProperty("clubViewModelContext", new ClubsViewModel(Club()));
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
+            QApplication::exit(-1);
     }, Qt::QueuedConnection);
 
     engine.load(url);
