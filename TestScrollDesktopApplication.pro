@@ -16,13 +16,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        Database/querybuilder.cpp \
         Models/title.cpp \
         Repositories/baserepository.cpp \
         Repositories/clubsrepository.cpp \
         Repositories/connection.cpp \
         Repositories/irepository.cpp \
+        Repositories/playerjourneyrepository.cpp \
+        Repositories/playerrepository.cpp \
         Repositories/stadiumrepository.cpp \
         Services/clubservice.cpp \
+        Services/playerservice.cpp \
         ViewModels/playerviewmodel.cpp \
         clubsviewmodel.cpp \
         main.cpp \
@@ -43,6 +47,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    Database/querybuilder.h \
     Models/ModelsHeader.h \
     Models/basemodel.h \
     Models/club.h \
@@ -59,8 +64,11 @@ HEADERS += \
     Repositories/clubsrepository.h \
     Repositories/connection.h \
     Repositories/irepository.h \
+    Repositories/playerjourneyrepository.h \
+    Repositories/playerrepository.h \
     Repositories/stadiumrepository.h \
     Services/clubservice.h \
+    Services/playerservice.h \
     ViewModels/playerviewmodel.h \
     clubsviewmodel.h \
     test.h

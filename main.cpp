@@ -9,18 +9,26 @@
 #include <QSqlDriver>
 #include <QSqlError>
 #include <QSqlQuery>
-#include "Repositories/clubsrepository.h"
 #include <memory>
 #include <QApplication>
+#include "Services/playerservice.h"
+#include "Database/querybuilder.h"
+#include "Repositories/clubsrepository.h"
+#include "Repositories/playerjourneyrepository.h"
+#include "Repositories/playerrepository.h"
+#include "ViewModels/playerviewmodel.h"
 
 using namespace SoccerLeague::Models;
 using namespace SoccerLeague::Repositories;
+using namespace SoccerLeague::Database;
+using namespace SoccerLeague::ViewModels;
 
 int main(int argc, char *argv[])
 {
 
 
-    Connection conn("QSQLITE", "C:\\Users\\tomto\\Documents\\SoccerLeague\\soccerleague.db");
+
+    //Connection conn("QSQLITE", "C:\\Users\\tomto\\Documents\\SoccerLeague\\soccerleague.db");
   //  ClubsRepository repo(conn);
 
   //  std::shared_ptr<Club> club = repo.getById(1);
@@ -32,8 +40,15 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    engine.rootContext()->setContextProperty("clubViewModelContext", new ClubsViewModel(Club()));
-    engine.rootContext()->setContextProperty("playerViewModelContext", new PlayerViewModel());
+    Connection conn("QSQLITE", "C:\\Users\\tomto\\Documents\\SoccerLeague\\soccerleague.db");
+    ClubsRepository clubRepo(conn);
+    PlayerRepository playerRepo(conn);
+    PlayerJourneyRepository playerJourneyRepo(conn);
+
+    PlayerService playerService(clubRepo, playerJourneyRepo, playerRepo);
+
+    //engine.rootContext()->setContextProperty("clubViewModelContext", new ClubsViewModel(Club()));
+    engine.rootContext()->setContextProperty("playerViewModelContext", new PlayerViewModel(playerService));
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

@@ -24,6 +24,8 @@ public:
     std::shared_ptr<Stadium> getById(const int& id) override;
     std::shared_ptr<Stadium> getByProperty(const QString& propertyName) override;
     std::shared_ptr<QVector<Stadium>> getAll() override;
+    std::shared_ptr<QVector<std::shared_ptr<Stadium>>> getAll(const std::unordered_map<QString, QString>& filters) override {}
+
 };
 
 }}

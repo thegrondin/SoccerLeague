@@ -7,23 +7,24 @@
 #include <QString>
 #include <QFloat16>
 #include <QVector>
-#include "playerjourney.h"
 #include "ModelsHeader.h"
 #include "memory"
 
 namespace SoccerLeague { namespace Models {
 
     class Club;
-    class Player : public BaseModel
+    class PlayerJourney;
+    class Player : public QObject
     {
-
+        Q_OBJECT
     private:
+        int id_;
         QString firstname_;
         QString lastname_;
         qfloat16 weight_;
         QString birthCity_;
-        QVector<std::shared_ptr<PlayerJourney>> journey_;
-        std::weak_ptr<Club> club_;
+        std::shared_ptr<QVector<std::shared_ptr<PlayerJourney>>> journey_;
+        std::shared_ptr<Club> club_;
 
     private:
         Q_PROPERTY(QString firstname READ getFirstname WRITE setFirstname NOTIFY firstnameChanged );
@@ -43,44 +44,44 @@ namespace SoccerLeague { namespace Models {
                const QString& firtname,
                const QString& lastname,
                const qfloat16& weight,
-               const QString& birthCity,
-               const QVector<std::shared_ptr<PlayerJourney>>& journey) :
-            BaseModel(id),
+               const QString& birthCity) :
+            id_(id),
             firstname_(firtname),
             lastname_(lastname),
             weight_(weight),
-            birthCity_(birthCity),
-            journey_(journey){};
+            birthCity_(birthCity) {};
 
         Player() :
-            BaseModel(0),
+            id_(0),
             firstname_(QString()),
             lastname_(QString()),
             weight_(0.0),
             birthCity_(QString()),
-            journey_(QVector<std::shared_ptr<PlayerJourney>>()){}
+            journey_(std::shared_ptr<QVector<std::shared_ptr<PlayerJourney>>>()){}
 
         QString getFirstname() {return firstname_;}
         QString getLastname() {return lastname_;}
         qfloat16 getWeight() {return weight_;}
         QString getBirthCity() {return birthCity_;}
-        QVector<std::shared_ptr<PlayerJourney>> getJourney() {return journey_;}
-        Club &getClub() { return *club_.lock().get(); }
+        std::shared_ptr<QVector<std::shared_ptr<PlayerJourney>>> getJourney() {return journey_;}
+        std::shared_ptr<Club> getClub() { return club_; }
+        int getId() const  { return id_; }
 
-        void setClub(std::weak_ptr<Club> club) {
+        void setId(const int& id) { id_ = id; }
+        void setClub(std::shared_ptr<Club> club) {
             club_ = club;
         }
 
-        void setJourney(const QVector<std::shared_ptr<PlayerJourney>>& journey) {
+        void setJourney(const std::shared_ptr<QVector<std::shared_ptr<PlayerJourney>>>& journey) {
             journey_ = journey;
         }
 
 
     public slots:
-        void setFirtname(const QString& firtname) {
-            if (getFirstname() != firtname) {
-                firstname_ = firtname;
-                firstnameChanged(firtname);
+        void setFirstname(const QString& firstname) {
+            if (getFirstname() != firstname) {
+                firstname_ = firstname;
+                firstnameChanged(firstname);
             }
         }
 
@@ -95,6 +96,13 @@ namespace SoccerLeague { namespace Models {
             if (getWeight() != weight) {
                 weight_ = weight;
                 weightChanged(weight);
+            }
+        }
+
+        void setBirthCity(const QString& birthCity) {
+            if (getBirthCity() != birthCity) {
+                birthCity_ = birthCity;
+                birthCityChanged(birthCity);
             }
         }
     };

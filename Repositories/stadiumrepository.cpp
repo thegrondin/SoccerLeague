@@ -25,7 +25,7 @@ std::shared_ptr<Stadium> StadiumRepository::getById(const int &id) {
 
     conn_.open();
 
-    if (conn_.get()->isOpen()) {
+    if (conn_.get().isOpen()) {
         QSqlQuery query;
 
 

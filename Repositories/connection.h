@@ -13,12 +13,23 @@ namespace SoccerLeague { namespace Models {
 class Connection
 {
 private:
-    std::shared_ptr<QSqlDatabase> database;
+    QSqlDatabase database;
+    QString driver_;
+    QString path_;
 public:
     Connection(const QString&, const QString&);
+    void recreate() {
+        const QString Driver(driver_);
+
+        if (!QSqlDatabase::isDriverAvailable(Driver)) {
+            throw QSqlError::ConnectionError;
+        }
+
+         database.setDatabaseName(path_);
+    }
     void open();
     void close();
-    std::shared_ptr<QSqlDatabase> get();
+    QSqlDatabase get();
 };
 }}
 #endif // CONNECTION_H

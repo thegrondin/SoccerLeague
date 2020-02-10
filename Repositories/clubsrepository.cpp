@@ -69,10 +69,10 @@ std::shared_ptr<Club> ClubsRepository::getById(const int &id) {
 
     conn_.open();
 
-    if (conn_.get()->isOpen()) {
+    if (conn_.get().isOpen()) {
         QSqlQuery query;
 
-        qDebug() << conn_.get()->databaseName();
+        qDebug() << conn_.get().databaseName();
 
         query.prepare("SELECT id, history, color, created_at, city_name, stadium_id FROM Clubs WHERE id=:id LIMIT 1");
         query.bindValue(":id", id);

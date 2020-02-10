@@ -6,10 +6,11 @@
 
 namespace SoccerLeague { namespace Models {
 
-class Stadium : public BaseModel
+class Stadium : public QObject
 {
     Q_OBJECT
 private:
+    int id_;
     int capacity_;
     QString terrainQuality_;
     QString name_;
@@ -33,14 +34,14 @@ public:
             const QString& terrainQuality,
             const QString& name,
             const QString& address) :
-      BaseModel(id),
+      id_(id),
       capacity_(capacity),
       terrainQuality_(terrainQuality),
       name_(name),
       address_(address) { }
 
     Stadium() :
-        BaseModel(0),
+        id_(0),
         capacity_(0),
         terrainQuality_(QString()),
         name_(QString()),
@@ -50,6 +51,12 @@ public:
     QString getTerrainQuality() { return terrainQuality_; }
     QString getName() { return name_; }
     QString getAddress() { return address_; }
+    int getId() const  {
+        return id_;
+    }
+    void setId(const int& id)  {
+        id_ = id;
+    }
 
 public slots:
     void setCapacity(const int& capacity) {

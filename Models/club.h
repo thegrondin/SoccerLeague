@@ -14,17 +14,15 @@
 #include "title.h"
 
 
-/*
- * query.prepare("INSERT INTO Clubs (id, club_members_id, stadium_id, club_staff_id, history, color, created_at, city_name)"
-                  "VALUES (:id, :club_effective_id, :statium_id, :club_staff_id, :history, :color, :created_at, :city_name)");*/
 
 namespace SoccerLeague { namespace Models {
 
-
-class Club : public BaseModel
+class Player;
+class Club : public QObject
 {
     Q_OBJECT
 private:
+    int id_;
     std::shared_ptr<QVector<std::shared_ptr<Player>>> clubEffective_;
     std::shared_ptr<Stadium> stadium_;
     QVector<Staff> clubStaff_;
@@ -46,13 +44,13 @@ public:
          const QString& color,
          const QDateTime& createdAt,
          const QString& cityName) :
-        BaseModel(id),
+        id_(id),
         history_(history),
         color_(color),
         createdAt_(createdAt),
         cityName_(cityName) { }
 
-    Club() : BaseModel(0),
+    Club() : id_(0),
         history_(QString()),
         color_(QString()),
         createdAt_(QDateTime()),
@@ -117,6 +115,13 @@ public:
 
     void setCityName(const QString& cityName) {
         cityName_ = cityName;
+    }
+
+    int getId() const  {
+        return id_;
+    }
+    void setId(const int& id)  {
+        id_ = id;
     }
 
 public slots:
