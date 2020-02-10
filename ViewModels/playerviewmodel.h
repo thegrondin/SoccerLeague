@@ -22,6 +22,7 @@ namespace SoccerLeague { namespace ViewModels {
             playerService_(playerService)
         {
             currentPlayer_ = playerService_.getPlayer(1);
+           // auto test = playerService_.getPlayer(1);
         }
 
         Player* getPlayer() {

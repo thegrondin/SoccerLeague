@@ -81,13 +81,6 @@ std::shared_ptr<Club> ClubsRepository::getById(const int &id) {
 
         query.first();
 
-/*Club(query.value(0).toInt(),
-                         query.value(1).toString(),
-                         query.value(2).toString(),
-                         query.value(3).toDateTime(),
-                         query.value(4).toString())*/
-
-
         std::shared_ptr<Club> pClub = std::make_shared<Club>();
         std::shared_ptr<Stadium> pStadium = std::make_shared<Stadium>();
 

@@ -17,6 +17,7 @@
 #include "Repositories/playerjourneyrepository.h"
 #include "Repositories/playerrepository.h"
 #include "ViewModels/playerviewmodel.h"
+#include <iostream>
 
 using namespace SoccerLeague::Models;
 using namespace SoccerLeague::Repositories;
@@ -46,9 +47,10 @@ int main(int argc, char *argv[])
     PlayerJourneyRepository playerJourneyRepo(conn);
 
     PlayerService playerService(clubRepo, playerJourneyRepo, playerRepo);
+    PlayerViewModel* playerViewModel = new PlayerViewModel(playerService);
 
     //engine.rootContext()->setContextProperty("clubViewModelContext", new ClubsViewModel(Club()));
-    engine.rootContext()->setContextProperty("playerViewModelContext", new PlayerViewModel(playerService));
+    engine.rootContext()->setContextProperty("playerViewModelContext", playerViewModel);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
@@ -59,5 +61,9 @@ int main(int argc, char *argv[])
 
     engine.load(url);
 
-    return app.exec();
+    int exec = app.exec();
+
+    delete playerViewModel;
+
+    return exec;
 }

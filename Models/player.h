@@ -9,6 +9,8 @@
 #include <QVector>
 #include "ModelsHeader.h"
 #include "memory"
+#include <qDebug>
+#include <iostream>
 
 namespace SoccerLeague { namespace Models {
 
