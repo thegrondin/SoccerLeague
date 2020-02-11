@@ -128,7 +128,9 @@ Page {
 
             Button {
                 text: "Ajouter un nouveau club"
-                //onClicked: model.submit()
+                onClicked: {
+                    stackView.push("AddClubView.qml")
+                }
             }
         }
 

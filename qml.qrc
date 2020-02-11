@@ -10,5 +10,6 @@
         <file>LeagueDashboardView.qml</file>
         <file>ClubView.qml</file>
         <file>SuccessView.qml</file>
+        <file>AddClubView.qml</file>
     </qresource>
 </RCC>
