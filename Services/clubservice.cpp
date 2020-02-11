@@ -25,3 +25,9 @@ std::shared_ptr<Club> ClubService::getClub(const int& id) {
 std::shared_ptr<QVector<std::shared_ptr<Club>>> ClubService::getClubs() {
     return nullptr;
 }
+
+void ClubService::save(const Club& club) {
+
+    clubRepository_.add(club);
+
+}

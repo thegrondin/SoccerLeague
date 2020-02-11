@@ -2,7 +2,7 @@
 #define CLUB_H
 
 #include <QString>
-#include <QDatetime>
+#include <QDateTime>
 #include <memory>
 #include <QVector>
 
@@ -18,6 +18,7 @@
 namespace SoccerLeague { namespace Models {
 
 class Player;
+class League;
 class Club : public QObject
 {
     Q_OBJECT
@@ -25,6 +26,7 @@ private:
     int id_;
     std::shared_ptr<QVector<std::shared_ptr<Player>>> clubEffective_;
     std::shared_ptr<Stadium> stadium_;
+    std::shared_ptr<League> league_;
     QVector<Staff> clubStaff_;
     QVector<Title> titles_;
     QString history_;
@@ -116,6 +118,14 @@ public:
     }
     void setId(const int& id)  {
         id_ = id;
+    }
+
+    std::shared_ptr<League> getLeague() const {
+        return league_;
+    }
+
+    void setLeague(const std::shared_ptr<League>& league) {
+        league_ = league;
     }
 
 public slots:

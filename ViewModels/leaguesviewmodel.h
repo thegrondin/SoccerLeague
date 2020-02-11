@@ -58,10 +58,19 @@ private:
     std::shared_ptr<QVector<std::shared_ptr<League>>> leagues_;
 
     Q_PROPERTY(QList<league_list_model*> leagues READ getLeagues);
-    Q_PROPERTY(QList<ClubListModel*> clubs READ getClubs);
+    Q_PROPERTY(QList<ClubListModel*> clubs READ getClubs NOTIFY clubsChanged);
 
     Q_PROPERTY(QString clubAmount READ getClubAmount);
     Q_PROPERTY(QString leagueName READ getLeagueName);
+
+signals:
+    void clubsChanged();
+
+public slots:
+    void refreshClubs() {
+        currentLeague_ = leagueService_.getLeague(currentLeague_->getId());
+        clubsChanged();
+    }
 public:
     LeaguesViewModel(const LeagueService& leagueService) :
         leagueService_(leagueService) {

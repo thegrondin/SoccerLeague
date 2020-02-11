@@ -45,21 +45,37 @@ std::shared_ptr<Club> ClubsRepository::add(const Club &item) {
     conn_.open();
 
     QSqlQuery query;
-    query.prepare("INSERT INTO Clubs (stadium_id, history, color, created_at, city_name)"
-                  "VALUES (:id, :statium_id, :history, :color, :created_at, :city_name)");
+    query.prepare("INSERT INTO Clubs (stadium_id, history, color, created_at, city_name, league_id)"
+                  "VALUES (:statium_id, :history, :color, :created_at, :city_name, :league_id)");
 
-    query.bindValue(":statium_id", QVariant(item.getStadium()->getId()));
+
     query.bindValue(":history", QVariant(item.getHistory()));
     query.bindValue(":color", QVariant(item.getColor()));
     query.bindValue(":created_at", QVariant(item.getCreatedAt()));
     query.bindValue(":city_name", QVariant(item.getCityName()));
 
+    //query.bindValue(":league_id", QVariant(item.get))
+
+    if (item.getStadium()) {
+        query.bindValue(":statium_id", QVariant(item.getStadium()->getId()));
+    }
+    else {
+        query.bindValue(":statium_id", QVariant());
+    }
+   // auto le = item.getLeague()->getId();
+    query.bindValue(":league_id", QVariant(item.getLeague()->getId()));
 
     query.exec();
 
-    conn_.close();
+    /*QSqlQuery resultQuery;
+    resultQuery.exec("SELECT last_insert_rowid()");
 
-    return this->getById(item.getId());
+    resultQuery.first();
+    resultQuery.next();
+    auto result = resultQuery.value(0).toInt();
+    conn_.close();*/
+
+    return this->getById(1);
 }
 
 bool ClubsRepository::remove(const Club &item) {

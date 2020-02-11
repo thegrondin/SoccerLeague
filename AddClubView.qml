@@ -14,6 +14,7 @@ Page {
                 anchors.left: parent.left
                 text: qsTr("Retourner vers la liste de clubs")
                 onClicked: {
+                    clubActionsViewModelContext.clear()
                     stackView.pop()
                 }
             }
@@ -71,34 +72,56 @@ Page {
                         columns: 2
 
                         TextField {
-                            id: textField1
-                            text: qsTr("")
+                            id: clubColorField
+                            text: clubActionsViewModelContext.club.color
                             placeholderText: "Couleur du club"
+                        }
+
+                        Binding {
+                            target: clubActionsViewModelContext.club
+                            property: "color"
+                            value: clubColorField.text
                         }
 
                         TextField {
                             id: textField3
-                            text: qsTr("")
+                            text: clubActionsViewModelContext.club.createdAt
                             placeholderText: "Annee de creation"
                         }
 
                         TextField {
-                            id: textField2
-                            text: qsTr("")
+                            id: clubCityNameField
+                            text: clubActionsViewModelContext.club.cityName
                             placeholderText: "Ville du club"
+                        }
+
+                        Binding {
+                            target: clubActionsViewModelContext.club
+                            property: "cityName"
+                            value: clubCityNameField.text
                         }
 
 
                         ComboBox {
-                            id: comboBox1
+                            id: stadeCombo
                             width: 200
                             textRole: ""
-                            displayText: "Stade"
+                            model: ListModel {
+                                id: model
+                                ListElement { text: "Banana" }
+                                ListElement { text: "Apple" }
+                                ListElement { text: "Coconut" }
+                            }
+
+                            onCurrentIndexChanged: {
+                                console.log(model.get(stadeCombo.currentIndex).text)
+                            }
                             flat: true
                         }
+
                         TextArea {
                             id: textArea
-                            text: qsTr("")
+                            text: clubActionsViewModelContext.club.history
                             placeholderText: "Histoire du club"
                             Layout.columnSpan: 2
                             Layout.fillWidth: true
@@ -113,11 +136,21 @@ Page {
 
                         Button {
                             id: button
+                            onClicked: {
+                                clubActionsViewModelContext.clear()
+                                stackView.pop()
+                            }
+
                             text: qsTr("Annuler")
                         }
 
                         Button {
                             id: button1
+                            onClicked: {
+                                clubActionsViewModelContext.saveClub()
+                                stackView.pop()
+                            }
+
                             text: qsTr("Enregistrer")
                         }
                     }
@@ -135,16 +168,6 @@ Page {
                 border.width: 1
             }
         }
-
-
-
-
-
-
-
-
-
-
     }
 
 }

@@ -82,6 +82,8 @@ Page {
                          }
                          onClicked: {
                              leagueViewModelContext.selectLeague(modelData.id)
+                             // TODO: Implement observer pattern instead of view-viewModel comm
+                             clubActionsViewModelContext.setLeague(modelData.id)
                              stackView.push("ClubsView.qml")
 
                          }

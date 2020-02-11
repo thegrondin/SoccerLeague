@@ -23,6 +23,8 @@
 #include "ViewModels/leaguesviewmodel.h"
 #include "Repositories/coachrepository.h"
 #include "Repositories/leaguerepository.h"
+#include "ViewModels/clubactionsviewmodel.h"
+
 
 using namespace SoccerLeague::Models;
 using namespace SoccerLeague::Repositories;
@@ -46,7 +48,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    Connection conn("QSQLITE", "C:\\Users\\tomto\\Documents\\SoccerLeague\\soccerleague.db");
+    Connection conn("QSQLITE", "/home/thomas/TestScrollDesktopApplication/soccerleague.db");
     ClubsRepository clubRepo(conn);
     PlayerRepository playerRepo(conn);
     PlayerJourneyRepository playerJourneyRepo(conn);
@@ -61,9 +63,14 @@ int main(int argc, char *argv[])
     PlayerViewModel* playerViewModel = new PlayerViewModel(playerService);
     ClubsViewModel* clubsViewModel = new ClubsViewModel(clubService);
     LeaguesViewModel* leagueViewModel = new LeaguesViewModel(leagueService);
+    ClubActionsViewModel* clubActionsViewModel = new ClubActionsViewModel(clubService);
+
+    QObject::connect(&(*clubActionsViewModel), SIGNAL(clubSavedEvent()), &(*leagueViewModel), SLOT(refreshClubs()));
 
     engine.rootContext()->setContextProperty("leagueViewModelContext", leagueViewModel);
     engine.rootContext()->setContextProperty("clubViewModelContext", clubsViewModel);
+    engine.rootContext()->setContextProperty("clubActionsViewModelContext", clubActionsViewModel);
+
     //engine.rootContext()->setContextProperty("playerViewModelContext", playerViewModel);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -79,6 +86,8 @@ int main(int argc, char *argv[])
 
     delete playerViewModel;
     delete clubsViewModel;
+    delete leagueViewModel;
+    delete clubActionsViewModel;
 
     return exec;
 }
