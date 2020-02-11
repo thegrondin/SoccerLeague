@@ -32,11 +32,18 @@ private:
     QDateTime createdAt_;
     QString cityName_;
 
+    Q_PROPERTY(QString color READ getColor WRITE setColor NOTIFY colorChanged);
+    Q_PROPERTY(QDateTime createdAt READ getCreatedAt WRITE setCreatedAt NOTIFY createAtChanged);
+    Q_PROPERTY(QString cityName READ getCityName WRITE setCityName NOTIFY cityNameChanged);
     Q_PROPERTY(QString history READ getHistory WRITE setHistory NOTIFY historyChanged);
     Q_PROPERTY(Stadium* stadium READ getStadium);
 
 signals:
     void historyChanged(const QString& arg);
+    void colorChanged(const QString& arg);
+    void createAtChanged(const QDateTime& arg);
+    void cityNameChanged(const QString& arg);
+
 public:
 
     Club(const int& id,
@@ -92,29 +99,16 @@ public:
         return history_;
     }
 
-
     QString getColor() const {
         return color_;
-    }
-
-    void setColor(const QString& color) {
-        color_ = color;
     }
 
     QDateTime getCreatedAt() const {
         return createdAt_;
     }
 
-    void setCreatedAt(const QDateTime& createdAt) {
-        createdAt_ = createdAt;
-    }
-
     QString getCityName() const {
         return cityName_;
-    }
-
-    void setCityName(const QString& cityName) {
-        cityName_ = cityName;
     }
 
     int getId() const  {
@@ -125,12 +119,34 @@ public:
     }
 
 public slots:
+
+    void setColor(const QString& color) {
+        if (getColor() != color) {
+             color_ = color;
+            colorChanged(color);
+        }
+    }
+
     void setHistory(const QString& history) {
         if (getHistory() != history) {
              history_ = history;
             historyChanged(history);
         }
 
+    }
+
+    void setCityName(const QString& cityName) {
+        if (getCityName() != cityName) {
+             cityName_ = cityName;
+            cityNameChanged(cityName);
+        }
+    }
+
+    void setCreatedAt(const QDateTime& createdAt) {
+        if (getCreatedAt() != createdAt) {
+             createdAt_ = createdAt;
+            createAtChanged(createdAt);
+        }
     }
 
 };

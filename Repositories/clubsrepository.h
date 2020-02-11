@@ -25,7 +25,7 @@ public:
     std::shared_ptr<Club> getById(const int& id) override;
     std::shared_ptr<Club> getByProperty(const QString& propertyName) override;
     std::shared_ptr<QVector<Club>> getAll() override;
-    std::shared_ptr<QVector<std::shared_ptr<Club>>> getAll(const std::unordered_map<QString, QString>& filters) override {}
+    std::shared_ptr<QVector<std::shared_ptr<Club>>> getAll(const std::unordered_map<QString, QString> &filters) override;
 };
 
 }}

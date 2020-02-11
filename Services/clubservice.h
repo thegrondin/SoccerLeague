@@ -3,6 +3,7 @@
 
 #include "../Repositories/clubsrepository.h"
 #include "../Repositories/stadiumrepository.h"
+#include "../Repositories/playerrepository.h"
 #include <memory>
 #include <QVector>
 #include <QString>
@@ -17,14 +18,17 @@ namespace SoccerLeague { namespace Services {
     private:
         ClubsRepository clubRepository_;
         StadiumRepository stadiumRepository_;
+        PlayerRepository playerRepository_;
     public:
         ClubService(ClubsRepository clubRepository,
-                    StadiumRepository stadiumRepository):
+                    StadiumRepository stadiumRepository,
+                    PlayerRepository playerRepository):
             clubRepository_(clubRepository),
-            stadiumRepository_(stadiumRepository) {}
+            stadiumRepository_(stadiumRepository),
+            playerRepository_(playerRepository) {}
 
         std::shared_ptr<Club> getClub(const int& );
-        std::shared_ptr<QVector<Club>> getClubs();
+        std::shared_ptr<QVector<std::shared_ptr<Club>>> getClubs();
     };
 }}
 

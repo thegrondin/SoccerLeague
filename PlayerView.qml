@@ -3,7 +3,19 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 
-Item {
+Page {
+
+    header: ToolBar {
+        Button {
+            anchors.left: parent.left
+            text: qsTr("Retour en arriere")
+            onClicked: {
+                stackView.pop()
+            }
+        }
+    }
+
+
     Label {
         id: label
         x: 35

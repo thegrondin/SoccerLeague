@@ -27,8 +27,8 @@ ApplicationWindow {
                         id: fruitModel
 
                         ListElement {
-                            name: "Clubs"
-                            view: "ClubsView.qml"
+                            name: "Ligues"
+                            view: "LeagueDashboardView.qml"
                         }
                         ListElement {
                             name: "Joueurs"

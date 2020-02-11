@@ -17,18 +17,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         Database/querybuilder.cpp \
+        Models/league.cpp \
         Models/title.cpp \
         Repositories/baserepository.cpp \
         Repositories/clubsrepository.cpp \
+        Repositories/coachrepository.cpp \
         Repositories/connection.cpp \
         Repositories/irepository.cpp \
+        Repositories/leaguerepository.cpp \
         Repositories/playerjourneyrepository.cpp \
         Repositories/playerrepository.cpp \
         Repositories/stadiumrepository.cpp \
         Services/clubservice.cpp \
+        Services/leagueservice.cpp \
         Services/playerservice.cpp \
+        ViewModels/clubsviewmodel.cpp \
+        ViewModels/leaguesviewmodel.cpp \
         ViewModels/playerviewmodel.cpp \
-        clubsviewmodel.cpp \
         main.cpp \
         test.cpp
 
@@ -54,6 +59,7 @@ HEADERS += \
     Models/clubstaff.h \
     Models/coach.h \
     Models/imodel.h \
+    Models/league.h \
     Models/player.h \
     Models/playerjourney.h \
     Models/record.h \
@@ -62,15 +68,19 @@ HEADERS += \
     Models/title.h \
     Repositories/baserepository.h \
     Repositories/clubsrepository.h \
+    Repositories/coachrepository.h \
     Repositories/connection.h \
     Repositories/irepository.h \
+    Repositories/leaguerepository.h \
     Repositories/playerjourneyrepository.h \
     Repositories/playerrepository.h \
     Repositories/stadiumrepository.h \
     Services/clubservice.h \
+    Services/leagueservice.h \
     Services/playerservice.h \
+    ViewModels/clubsviewmodel.h \
+    ViewModels/leaguesviewmodel.h \
     ViewModels/playerviewmodel.h \
-    clubsviewmodel.h \
     test.h
 
 DISTFILES += \

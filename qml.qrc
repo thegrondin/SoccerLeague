@@ -7,5 +7,8 @@
         <file>page2.qml</file>
         <file>page3.qml</file>
         <file>PlayerView.qml</file>
+        <file>LeagueDashboardView.qml</file>
+        <file>ClubView.qml</file>
+        <file>SuccessView.qml</file>
     </qresource>
 </RCC>

@@ -1,7 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickView>
-#include "clubsviewmodel.h"
 #include "Models/club.h"
 #include "Models/player.h"
 #include <QQmlContext>
@@ -18,6 +17,12 @@
 #include "Repositories/playerrepository.h"
 #include "ViewModels/playerviewmodel.h"
 #include <iostream>
+#include "ViewModels/clubsviewmodel.h"
+#include "Services/clubservice.h"
+#include "Services/leagueservice.h"
+#include "ViewModels/leaguesviewmodel.h"
+#include "Repositories/coachrepository.h"
+#include "Repositories/leaguerepository.h"
 
 using namespace SoccerLeague::Models;
 using namespace SoccerLeague::Repositories;
@@ -45,12 +50,21 @@ int main(int argc, char *argv[])
     ClubsRepository clubRepo(conn);
     PlayerRepository playerRepo(conn);
     PlayerJourneyRepository playerJourneyRepo(conn);
+    StadiumRepository stadiumRepo(conn);
+    CoachRepository coachRepo(conn);
+    LeagueRepository leagueRepo(conn);
 
     PlayerService playerService(clubRepo, playerJourneyRepo, playerRepo);
-    PlayerViewModel* playerViewModel = new PlayerViewModel(playerService);
+    ClubService clubService(clubRepo, stadiumRepo, playerRepo);
+    LeagueService leagueService(clubRepo, coachRepo, leagueRepo);
 
-    //engine.rootContext()->setContextProperty("clubViewModelContext", new ClubsViewModel(Club()));
-    engine.rootContext()->setContextProperty("playerViewModelContext", playerViewModel);
+    PlayerViewModel* playerViewModel = new PlayerViewModel(playerService);
+    ClubsViewModel* clubsViewModel = new ClubsViewModel(clubService);
+    LeaguesViewModel* leagueViewModel = new LeaguesViewModel(leagueService);
+
+    engine.rootContext()->setContextProperty("leagueViewModelContext", leagueViewModel);
+    engine.rootContext()->setContextProperty("clubViewModelContext", clubsViewModel);
+    //engine.rootContext()->setContextProperty("playerViewModelContext", playerViewModel);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
@@ -64,6 +78,7 @@ int main(int argc, char *argv[])
     int exec = app.exec();
 
     delete playerViewModel;
+    delete clubsViewModel;
 
     return exec;
 }
