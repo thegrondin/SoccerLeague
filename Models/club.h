@@ -45,6 +45,7 @@ signals:
     void colorChanged(const QString& arg);
     void createAtChanged(const QDateTime& arg);
     void cityNameChanged(const QString& arg);
+    void stadiumChanged(const std::shared_ptr<Stadium>& arg);
 
 public:
 
@@ -64,6 +65,17 @@ public:
         color_(QString()),
         createdAt_(QDateTime()),
         cityName_(QString()) { }
+
+    Club(const Club& other){
+        id_ = other.id_;
+        history_ = other.history_;
+        color_ = other.color_;
+        createdAt_ = other.createdAt_;
+        cityName_ = other.cityName_;
+        stadium_ = std::make_shared<Stadium>(other.stadium_);
+        league_ = other.league_;
+        clubEffective_ = other.clubEffective_;
+    }
 
     QVector<Title> getTitles() const {
         return titles_;
@@ -158,6 +170,7 @@ public slots:
             createAtChanged(createdAt);
         }
     }
+
 
 };
 

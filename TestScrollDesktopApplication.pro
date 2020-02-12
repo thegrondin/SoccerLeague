@@ -31,6 +31,7 @@ SOURCES += \
         Services/clubservice.cpp \
         Services/leagueservice.cpp \
         Services/playerservice.cpp \
+        Services/stadiumservice.cpp \
         ViewModels/clubactionsviewmodel.cpp \
         ViewModels/clubsviewmodel.cpp \
         ViewModels/leaguesviewmodel.cpp \
@@ -79,6 +80,7 @@ HEADERS += \
     Services/clubservice.h \
     Services/leagueservice.h \
     Services/playerservice.h \
+    Services/stadiumservice.h \
     ViewModels/clubactionsviewmodel.h \
     ViewModels/clubsviewmodel.h \
     ViewModels/leaguesviewmodel.h \

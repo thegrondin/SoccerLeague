@@ -7,8 +7,6 @@ using namespace SoccerLeague::Models;
 
 std::shared_ptr<Club> ClubService::getClub(const int& id) {
 
-
-
     std::shared_ptr<Club> club = clubRepository_.getById(id);
 
     auto filter = std::unordered_map<QString, QString> {
@@ -23,7 +21,8 @@ std::shared_ptr<Club> ClubService::getClub(const int& id) {
 }
 
 std::shared_ptr<QVector<std::shared_ptr<Club>>> ClubService::getClubs() {
-    return nullptr;
+
+    return clubRepository_.getAll(std::unordered_map<QString, QString>());
 }
 
 void ClubService::save(const Club& club) {

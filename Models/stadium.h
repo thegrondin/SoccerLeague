@@ -3,6 +3,7 @@
 
 #include "basemodel.h"
 #include <QString>
+#include <memory>
 
 namespace SoccerLeague { namespace Models {
 
@@ -46,6 +47,24 @@ public:
         terrainQuality_(QString()),
         name_(QString()),
         address_(QString()) {}
+
+    Stadium(const Stadium& other) {
+        id_ = other.id_;
+        capacity_ = other.capacity_;
+        terrainQuality_ = other.terrainQuality_;
+        name_ = other.name_;
+        address_ = other.address_;
+    }
+
+    Stadium(const std::shared_ptr<Stadium>& other) {
+        id_ = other->id_;
+        capacity_ = other->capacity_;
+        terrainQuality_ = other->terrainQuality_;
+        name_ = other->name_;
+        address_ = other->address_;
+    }
+
+
 
     int getCapacity() { return capacity_; }
     QString getTerrainQuality() { return terrainQuality_; }

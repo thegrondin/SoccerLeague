@@ -3,15 +3,17 @@
 
 
 #include "../Services/clubservice.h"
+#include "../Services/stadiumservice.h"
 #include <memory>
 #include <QList>
+#include <QComboBox>
 
 using namespace SoccerLeague::Services;
 
 namespace SoccerLeague { namespace ViewModels {
 
 
-class StadeComboBoxModel : QObject {
+class StadeComboBoxModel : public QObject {
     Q_OBJECT
 public:
     int id_;
@@ -30,19 +32,28 @@ class ClubActionsViewModel : public QObject
 {
     Q_OBJECT
 private:
+
     ClubService clubService_;
+    StadiumService stadiumService_;
+
     std::shared_ptr<Club> club_;
+    std::shared_ptr<QVector<std::shared_ptr<Stadium>>> stadiums_;
 
     Q_PROPERTY(Club* club READ getClub);
-    Q_PROPERTY(QList<StadeComboBoxModel*> stades READ getStades);
+    Q_PROPERTY(QList<Stadium*> stades READ getStades);
+    Q_PROPERTY(Stadium* stadium WRITE setStadium);
 
 signals:
     void clubSavedEvent();
 
 public:
-    ClubActionsViewModel(const ClubService& clubService) :
-        clubService_(clubService) {
+    ClubActionsViewModel(const ClubService& clubService,
+                         const StadiumService& stadiumService) :
+        clubService_(clubService),
+        stadiumService_(stadiumService)
+    {
         club_ = std::make_shared<Club>();
+        stadiums_ = stadiumService_.getStadiums();
     }
 
 
@@ -50,11 +61,16 @@ public:
         return club_.get();
     }
 
-    QList<StadeComboBoxModel*> getStades() {
+     QList<Stadium*> getStades() {
 
-        QList<StadeComboBoxModel*> datalist;
+        QList<Stadium*> datalist;
 
-        //for (auto stade : *)
+        auto pStadiums = stadiums_.get();
+
+        for (auto it = pStadiums->begin(); it != pStadiums->end(); ++it) {
+            datalist.append(it->get());
+        }
+
         return datalist;
     }
 

@@ -101,6 +101,7 @@ Page {
                             value: clubCityNameField.text
                         }
 
+                        /*
 
                         ComboBox {
                             id: stadeCombo
@@ -115,6 +116,36 @@ Page {
 
                             onCurrentIndexChanged: {
                                 console.log(model.get(stadeCombo.currentIndex).text)
+                            }
+                            flat: true
+                        }
+
+
+                          */
+
+                        ComboBox {
+                            id: stadeCombo
+                            width: 200
+                            textRole: "name"
+                            model: clubActionsViewModelContext.stades
+                            onCurrentIndexChanged: {
+                                clubActionsViewModelContext.club.stadium = clubActionsViewModelContext.stades[0]
+                                //clubActionsViewModelContext.club.stadium = clubActionsViewModelContext.stades.get(stadeCombo.currentIndex).text
+                            }
+                            delegate: ItemDelegate {
+                                width: parent.width
+                                height: 40
+                                x: 10
+                                onClicked: {
+                                    //stadeCombo.currentValue = modelData
+                                    //clubViewModelContext.selectClub(modelData.id)
+                                    //stackView.push("ClubView.qml")
+                                }
+                                Text {
+                                    text: modelData.name
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+
                             }
                             flat: true
                         }

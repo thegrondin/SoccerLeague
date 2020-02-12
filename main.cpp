@@ -24,7 +24,7 @@
 #include "Repositories/coachrepository.h"
 #include "Repositories/leaguerepository.h"
 #include "ViewModels/clubactionsviewmodel.h"
-
+#include "Services/stadiumservice.h"
 
 using namespace SoccerLeague::Models;
 using namespace SoccerLeague::Repositories;
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    Connection conn("QSQLITE", "/home/thomas/TestScrollDesktopApplication/soccerleague.db");
+    Connection conn("QSQLITE", "C:\\Users\\tomto\\Documents\\SoccerLeague\\soccerleague.db");
     ClubsRepository clubRepo(conn);
     PlayerRepository playerRepo(conn);
     PlayerJourneyRepository playerJourneyRepo(conn);
@@ -59,11 +59,12 @@ int main(int argc, char *argv[])
     PlayerService playerService(clubRepo, playerJourneyRepo, playerRepo);
     ClubService clubService(clubRepo, stadiumRepo, playerRepo);
     LeagueService leagueService(clubRepo, coachRepo, leagueRepo);
+    StadiumService stadiumService(stadiumRepo);
 
     PlayerViewModel* playerViewModel = new PlayerViewModel(playerService);
     ClubsViewModel* clubsViewModel = new ClubsViewModel(clubService);
     LeaguesViewModel* leagueViewModel = new LeaguesViewModel(leagueService);
-    ClubActionsViewModel* clubActionsViewModel = new ClubActionsViewModel(clubService);
+    ClubActionsViewModel* clubActionsViewModel = new ClubActionsViewModel(clubService, stadiumRepo);
 
     QObject::connect(&(*clubActionsViewModel), SIGNAL(clubSavedEvent()), &(*leagueViewModel), SLOT(refreshClubs()));
 
