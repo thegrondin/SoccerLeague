@@ -74,6 +74,11 @@ public:
         return datalist;
     }
 
+     Q_INVOKABLE void deleteClub(const int& id) {
+        clubService_.remove(id);
+        emit clubSavedEvent();
+     }
+
     Q_INVOKABLE void saveClub() {
         clubService_.save(*club_);
         emit clubSavedEvent();

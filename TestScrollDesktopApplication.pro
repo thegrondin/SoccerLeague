@@ -27,6 +27,7 @@ SOURCES += \
         Repositories/leaguerepository.cpp \
         Repositories/playerjourneyrepository.cpp \
         Repositories/playerrepository.cpp \
+        Repositories/repository.cpp \
         Repositories/stadiumrepository.cpp \
         Services/clubservice.cpp \
         Services/leagueservice.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
         ViewModels/clubactionsviewmodel.cpp \
         ViewModels/clubsviewmodel.cpp \
         ViewModels/leaguesviewmodel.cpp \
+        ViewModels/playeractionsviewmodel.cpp \
         ViewModels/playerviewmodel.cpp \
         main.cpp \
         test.cpp
@@ -76,6 +78,7 @@ HEADERS += \
     Repositories/leaguerepository.h \
     Repositories/playerjourneyrepository.h \
     Repositories/playerrepository.h \
+    Repositories/repository.h \
     Repositories/stadiumrepository.h \
     Services/clubservice.h \
     Services/leagueservice.h \
@@ -84,6 +87,7 @@ HEADERS += \
     ViewModels/clubactionsviewmodel.h \
     ViewModels/clubsviewmodel.h \
     ViewModels/leaguesviewmodel.h \
+    ViewModels/playeractionsviewmodel.h \
     ViewModels/playerviewmodel.h \
     test.h
 

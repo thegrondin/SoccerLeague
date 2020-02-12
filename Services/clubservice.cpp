@@ -30,3 +30,10 @@ void ClubService::save(const Club& club) {
     clubRepository_.add(club);
 
 }
+
+bool ClubService::remove(const int& id) {
+
+    playerRepository_.removeWhere(std::make_pair("club_id", QString::number(id)));
+
+    return clubRepository_.removeById(id);
+}

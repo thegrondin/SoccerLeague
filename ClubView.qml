@@ -194,8 +194,10 @@ Page {
              }
 
             Button {
-                text: "Ajouter un nouveau club"
-                //onClicked: model.submit()
+                text: "Ajouter un nouveau joueur"
+                onClicked: {
+                    stackView.push("AddPlayerView.qml")
+                }
             }
         }
 
@@ -223,12 +225,12 @@ Page {
                          ListView {
                              Layout.fillHeight: true
                              Layout.fillWidth: true
-                             model: clubViewModelContext.players
+                             model: playersViewModelContext.players
                              delegate: ItemDelegate {
                                  width: parent.width
                                  height: 70
                                  onClicked: {
-                                     //playerViewModelContext.selectClub(modelData.id)
+                                     playersViewModelContext.selectPlayer(modelData.id)
                                      stackView.push("PlayerView.qml")
                                  }
 
@@ -240,9 +242,11 @@ Page {
                                          anchors.verticalCenter: parent.verticalCenter
                                      }
 
-                                     CheckBox {
-
-
+                                     Button {
+                                        text: "Supprimer"
+                                        onClicked: {
+                                            playerActionsViewModelContext.deletePlayer(modelData.id)
+                                        }
                                      }
                                  }
                              }

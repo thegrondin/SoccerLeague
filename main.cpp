@@ -25,6 +25,10 @@
 #include "Repositories/leaguerepository.h"
 #include "ViewModels/clubactionsviewmodel.h"
 #include "Services/stadiumservice.h"
+#include "ViewModels/playeractionsviewmodel.h"
+#include <QSqlQuery>
+
+#include "Repositories/repository.h"
 
 using namespace SoccerLeague::Models;
 using namespace SoccerLeague::Repositories;
@@ -33,7 +37,6 @@ using namespace SoccerLeague::ViewModels;
 
 int main(int argc, char *argv[])
 {
-
 
 
     //Connection conn("QSQLITE", "C:\\Users\\tomto\\Documents\\SoccerLeague\\soccerleague.db");
@@ -48,7 +51,32 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    Connection conn("QSQLITE", "C:\\Users\\tomto\\Documents\\SoccerLeague\\soccerleague.db");
+    Connection conn("QSQLITE", "/home/thomas/TestScrollDesktopApplication/soccerleague.db");
+
+    Repository<Player> repoTest(conn, "Players");
+    QVector<std::shared_ptr<Player>> playersTest = QVector<std::shared_ptr<Player>>();
+
+    repoTest.select(QVector<QString> {"firstname"}, QVector<WhereQuery>() = { WhereQuery {"id", "=", "7"}}, "", [&playersTest](QSqlQuery query) {
+
+
+        while (query.next()) {
+            std::shared_ptr<Player> p = std::make_shared<Player>();
+
+            p->setFirstname(query.value(0).toString());
+
+            playersTest.push_back(p);
+        }
+    });
+
+    QVector<QString> columns = {"firstname", "lastname", "weight", "birth_city", "club_id"};
+    QVector<QString> values = {"Thomas", "Dion-Tremblay", "5050", "Mississipi", "3"};
+    //bool result = repoTest.insert(columns, values);
+
+    auto testing = playersTest;
+
+
+    return -1;
+
     ClubsRepository clubRepo(conn);
     PlayerRepository playerRepo(conn);
     PlayerJourneyRepository playerJourneyRepo(conn);
@@ -61,18 +89,24 @@ int main(int argc, char *argv[])
     LeagueService leagueService(clubRepo, coachRepo, leagueRepo);
     StadiumService stadiumService(stadiumRepo);
 
+
     PlayerViewModel* playerViewModel = new PlayerViewModel(playerService);
     ClubsViewModel* clubsViewModel = new ClubsViewModel(clubService);
     LeaguesViewModel* leagueViewModel = new LeaguesViewModel(leagueService);
     ClubActionsViewModel* clubActionsViewModel = new ClubActionsViewModel(clubService, stadiumRepo);
+    PlayerActionsViewModel* playerActionsViewModel = new PlayerActionsViewModel(playerService);
 
     QObject::connect(&(*clubActionsViewModel), SIGNAL(clubSavedEvent()), &(*leagueViewModel), SLOT(refreshClubs()));
+    QObject::connect(&(*playerActionsViewModel), SIGNAL(playersUpdatedEvent()), &(*playerViewModel), SLOT(refreshPlayers()));
+
+    QObject::connect(&(*clubsViewModel), SIGNAL(clubSelectedEvent(int)), &(*playerViewModel), SLOT(setPlayersFromClubId(int)));
+    QObject::connect(&(*clubsViewModel), SIGNAL(clubSelectedEvent(int)), &(*playerActionsViewModel), SLOT(setClub(int)));
 
     engine.rootContext()->setContextProperty("leagueViewModelContext", leagueViewModel);
     engine.rootContext()->setContextProperty("clubViewModelContext", clubsViewModel);
     engine.rootContext()->setContextProperty("clubActionsViewModelContext", clubActionsViewModel);
-
-    //engine.rootContext()->setContextProperty("playerViewModelContext", playerViewModel);
+    engine.rootContext()->setContextProperty("playersViewModelContext", playerViewModel);
+    engine.rootContext()->setContextProperty("playerActionsViewModelContext", playerActionsViewModel);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
@@ -89,6 +123,7 @@ int main(int argc, char *argv[])
     delete clubsViewModel;
     delete leagueViewModel;
     delete clubActionsViewModel;
+    delete playerActionsViewModel;
 
     return exec;
 }

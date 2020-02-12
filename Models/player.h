@@ -33,7 +33,7 @@ namespace SoccerLeague { namespace Models {
         Q_PROPERTY(QString lastname READ getLastname WRITE setLastname NOTIFY lastnameChanged);
         Q_PROPERTY(QString birthCity READ getBirthCity WRITE setBirthCity NOTIFY birthCityChanged);
         Q_PROPERTY(qfloat16 weight READ getWeight WRITE setWeight NOTIFY weightChanged);
-
+        Q_PROPERTY(int id READ getId);
     signals:
         void firstnameChanged(const QString& firstname);
         void lastnameChanged(const QString& lastname);
@@ -61,12 +61,12 @@ namespace SoccerLeague { namespace Models {
             birthCity_(QString()),
             journey_(std::shared_ptr<QVector<std::shared_ptr<PlayerJourney>>>()){}
 
-        QString getFirstname() {return firstname_;}
-        QString getLastname() {return lastname_;}
-        qfloat16 getWeight() {return weight_;}
-        QString getBirthCity() {return birthCity_;}
-        std::shared_ptr<QVector<std::shared_ptr<PlayerJourney>>> getJourney() {return journey_;}
-        std::shared_ptr<Club> getClub() { return club_; }
+        QString getFirstname() const {return firstname_;}
+        QString getLastname() const  {return lastname_;}
+        qfloat16 getWeight() const {return weight_;}
+        QString getBirthCity() const {return birthCity_;}
+        std::shared_ptr<QVector<std::shared_ptr<PlayerJourney>>> getJourney() const {return journey_;}
+        std::shared_ptr<Club> getClub() const { return club_; }
         int getId() const  { return id_; }
 
         void setId(const int& id) { id_ = id; }

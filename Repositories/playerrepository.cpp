@@ -11,7 +11,26 @@ std::shared_ptr<Player> PlayerRepository::update(const Player &item){
 
 std::shared_ptr<Player> PlayerRepository::add(const Player &item) {
 
-    return nullptr;
+    conn_.open();
+
+    QSqlQuery query;
+
+    query.prepare("INSERT INTO Players (firstname, lastname, weight, birth_city, club_id)"
+                  "VALUES (:firstname, :lastname, :weight, :birth_city, :club_id)");
+
+    query.bindValue(":firstname", QVariant(item.getFirstname()));
+    query.bindValue(":lastname", QVariant(item.getLastname()));
+    query.bindValue(":weight", QVariant(item.getWeight()));
+    query.bindValue("birth_city", QVariant(item.getBirthCity()));
+    query.bindValue(":club_id", QVariant(item.getClub()->getId()));
+
+    query.exec();
+
+    auto result = query.lastInsertId().toInt();
+
+    conn_.close();
+
+    return this->getById(result);
 }
 
 bool PlayerRepository::remove(const Player &item) {
@@ -20,6 +39,26 @@ bool PlayerRepository::remove(const Player &item) {
 
 bool PlayerRepository::removeById(const int &id) {
     return false;
+}
+
+bool PlayerRepository::removeWhere(const std::pair<QString, QString>& filter) {
+
+    conn_.open();
+
+    auto a = filter.first;
+    auto b = filter.second;
+
+    QSqlQuery query;
+    query.prepare("DELETE FROM Players WHERE " + filter.first + "=:condition_value");
+
+    query.bindValue(":condition_value", filter.second);
+
+    auto success = query.exec();
+
+    conn_.close();
+
+    return success;
+
 }
 
 std::shared_ptr<Player> PlayerRepository::getById(const int &id) {

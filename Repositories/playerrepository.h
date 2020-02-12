@@ -22,6 +22,7 @@ public:
     std::shared_ptr<Player> add(const Player& item) override;
     bool remove(const Player& item) override;
     bool removeById(const int& id) override;
+    bool removeWhere(const std::pair<QString, QString>&);
     std::shared_ptr<Player> getById(const int& id) override;
     std::shared_ptr<Player> getByProperty(const QString& propertyName) override;
     std::shared_ptr<QVector<Player>> getAll() override;

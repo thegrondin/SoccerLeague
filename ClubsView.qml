@@ -168,9 +168,11 @@ Page {
                                  anchors.verticalCenter: parent.verticalCenter
                              }
 
-                             CheckBox {
-
-
+                             Button {
+                                text: "Supprimer"
+                                onClicked: {
+                                    clubActionsViewModelContext.deleteClub(modelData.id)
+                                }
                              }
                          }
                      }

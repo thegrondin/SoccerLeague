@@ -67,15 +67,10 @@ std::shared_ptr<Club> ClubsRepository::add(const Club &item) {
 
     query.exec();
 
-    /*QSqlQuery resultQuery;
-    resultQuery.exec("SELECT last_insert_rowid()");
+    auto result = query.lastInsertId().toInt();
+    conn_.close();
 
-    resultQuery.first();
-    resultQuery.next();
-    auto result = resultQuery.value(0).toInt();
-    conn_.close();*/
-
-    return this->getById(1);
+    return this->getById(result);
 }
 
 bool ClubsRepository::remove(const Club &item) {
@@ -83,7 +78,20 @@ bool ClubsRepository::remove(const Club &item) {
 }
 
 bool ClubsRepository::removeById(const int &id) {
-    return false;
+
+
+    conn_.open();
+
+    QSqlQuery query;
+    query.prepare("DELETE FROM Clubs WHERE id=:id");
+
+    query.bindValue(":id", id);
+
+    auto success = query.exec();
+
+    conn_.close();
+
+    return success;
 }
 
 std::shared_ptr<Club> ClubsRepository::getById(const int &id) {

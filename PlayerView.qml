@@ -20,28 +20,28 @@ Page {
         id: label
         x: 35
         y: 30
-        text: playerViewModelContext.player.firstname
+        text: playersViewModelContext.player.firstname
     }
 
     Label {
         id: label1
         x: 35
         y: 56
-        text: playerViewModelContext.player.lastname
+        text: playersViewModelContext.player.lastname
     }
 
     Label {
         id: label2
         x: 35
         y: 82
-        text: playerViewModelContext.player.weight
+        text: playersViewModelContext.player.weight
     }
 
     Label {
         id: label3
         x: 35
         y: 110
-        text: playerViewModelContext.player.birthCity
+        text: playersViewModelContext.player.birthCity
     }
 
     ListView {

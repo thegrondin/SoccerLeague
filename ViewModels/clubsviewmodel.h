@@ -9,6 +9,8 @@ using namespace SoccerLeague::Services;
 
 namespace SoccerLeague { namespace ViewModels {
 
+
+    // Transferer PlayerList to playerViewModel
     class PlayerListModel : public QObject  {
         Q_OBJECT
     public:
@@ -47,6 +49,8 @@ namespace SoccerLeague { namespace ViewModels {
         Q_PROPERTY(Club* club READ getClub);
         Q_PROPERTY(QList<PlayerListModel*> players READ getPlayers);
 
+    signals:
+        void clubSelectedEvent(const int& id);
 
     public:
 
@@ -86,6 +90,7 @@ namespace SoccerLeague { namespace ViewModels {
 
         Q_INVOKABLE void selectClub(const int& id) {
             currentClub_ = clubsService_.getClub(id);
+            emit clubSelectedEvent(id);
         }
 
 

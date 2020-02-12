@@ -51,6 +51,25 @@ bool PlayerJourneyRepository::removeById(const int &id) {
     return false;
 }
 
+
+bool PlayerJourneyRepository::removeWhere(const std::pair<QString, QString>& filter) {
+
+    conn_.open();
+
+    QSqlQuery query;
+    query.prepare("DELETE FROM PlayerJourneys WHERE :condition_key=:condition_value");
+
+    query.bindValue(":condition_key", filter.first);
+    query.bindValue(":condition_value", filter.second);
+
+    auto success = query.exec();
+
+    conn_.close();
+
+    return success;
+
+}
+
 std::shared_ptr<PlayerJourney> PlayerJourneyRepository::getById(const int &id) {
 
     return getAll(std::unordered_map<QString, QString> {std::make_pair("id", QString::number(id))})->at(0);
