@@ -41,7 +41,7 @@ private:
 
     Q_PROPERTY(Club* club READ getClub);
     Q_PROPERTY(QList<Stadium*> stades READ getStades);
-    Q_PROPERTY(Stadium* stadium WRITE setStadium);
+
 
 signals:
     void clubSavedEvent();
@@ -88,6 +88,11 @@ public:
         league->setId(id);
         club_->setLeague(league);
     }
+
+     Q_INVOKABLE void selectStadium(Stadium* selectedStadium) {
+
+        club_->setStadium(std::make_shared<Stadium>(Stadium(selectedStadium->getId())));
+     }
 };
 
 }}

@@ -129,7 +129,7 @@ Page {
                             textRole: "name"
                             model: clubActionsViewModelContext.stades
                             onCurrentIndexChanged: {
-                                clubActionsViewModelContext.club.stadium = clubActionsViewModelContext.stades[0]
+                                clubActionsViewModelContext.selectStadium(clubActionsViewModelContext.stades[stadeCombo.currentIndex])
                                 //clubActionsViewModelContext.club.stadium = clubActionsViewModelContext.stades.get(stadeCombo.currentIndex).text
                             }
                             delegate: ItemDelegate {

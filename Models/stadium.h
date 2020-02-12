@@ -30,6 +30,14 @@ signals:
     void addressChanged(const QString& address);
 
 public:
+
+    Stadium (const int& id) :
+        id_(id),
+        capacity_(0),
+        terrainQuality_(QString()),
+        name_(QString()),
+        address_(QString()) {}
+
     Stadium(const int& id,
             const int& capacity,
             const QString& terrainQuality,
