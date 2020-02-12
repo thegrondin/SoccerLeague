@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 
     Connection conn("QSQLITE", "/home/thomas/TestScrollDesktopApplication/soccerleague.db");
 
-    Repository<Player> repoTest(conn, "Players");
+    /*Repository<Player> repoTest(conn, "Players");
     QVector<std::shared_ptr<Player>> playersTest = QVector<std::shared_ptr<Player>>();
 
     repoTest.select(QVector<QString> {"firstname"}, QVector<WhereQuery>() = { WhereQuery {"id", "=", "7"}}, "", [&playersTest](QSqlQuery query) {
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
     auto testing = playersTest;
 
 
-    return -1;
+    return -1;*/
 
     ClubsRepository clubRepo(conn);
     PlayerRepository playerRepo(conn);
