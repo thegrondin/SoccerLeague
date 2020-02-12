@@ -29,6 +29,7 @@ SOURCES += \
         Repositories/playerrepository.cpp \
         Repositories/repository.cpp \
         Repositories/stadiumrepository.cpp \
+        Repositories/titlerepository.cpp \
         Services/clubservice.cpp \
         Services/leagueservice.cpp \
         Services/playerservice.cpp \
@@ -80,6 +81,7 @@ HEADERS += \
     Repositories/playerrepository.h \
     Repositories/repository.h \
     Repositories/stadiumrepository.h \
+    Repositories/titlerepository.h \
     Services/clubservice.h \
     Services/leagueservice.h \
     Services/playerservice.h \

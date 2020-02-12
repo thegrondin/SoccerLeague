@@ -39,7 +39,6 @@ public:
     void setId(const int& id) {id_=id;}
     void setClub(const std::shared_ptr<Club>& club) {club_ = club;}
     void setCoach(const std::shared_ptr<Coach>& coach) {coach_ = coach;}
-    void setPlayer(const std::shared_ptr<Player>& player) {player_ = player;}
 
 public slots:
     void setName(const QString& name) {
@@ -49,7 +48,7 @@ public slots:
         }
     }
 
-    void setdate(const QDate& date) {
+    void setDate(const QDate& date) {
         if (getDate() != date) {
             date_ = date;
             dateChanged(date);
