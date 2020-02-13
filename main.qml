@@ -31,8 +31,8 @@ ApplicationWindow {
                             view: "LeagueDashboardView.qml"
                         }
                         ListElement {
-                            name: "Joueurs"
-                            view: "PlayerView.qml"
+                            name: "Coachs"
+                            view: "CoachView.qml"
                         }
                         ListElement {
                             name: "Page 3"

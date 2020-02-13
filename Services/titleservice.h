@@ -17,7 +17,8 @@ namespace SoccerLeague { namespace Services {
             titleRepository_(titleRepository) {} ;
 
         std::shared_ptr<Title> getTitle(const int& id);
-        void saveFromClub(const Title&);
+        std::shared_ptr<Title> save(const Title&);
+        void remove(const int& id);
     };
 
 }}

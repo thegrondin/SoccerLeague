@@ -9,7 +9,13 @@ std::shared_ptr<Title> TitleService::getTitle(const int& id) {
     return titleRepository_.getById(id);
 }
 
-void TitleService::saveFromClub(const Title &title) {
+std::shared_ptr<Title> TitleService::save(const Title &title) {
 
-    titleRepository_.add(title);
+   return titleRepository_.add(title);
+}
+
+
+void TitleService::remove(const int& id) {
+
+    titleRepository_.removeById(id);
 }

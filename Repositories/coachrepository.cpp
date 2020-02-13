@@ -11,6 +11,26 @@ std::shared_ptr<Coach> CoachRepository::update(const Coach &item){
 
 std::shared_ptr<Coach> CoachRepository::add(const Coach &item) {
 
+    conn_.open();
+
+    QSqlQuery query;
+
+    query.prepare("INSERT INTO Coaches (firstname, lastname, graduation_location, league_id)"
+                  "VALUES (:firstname, :lastname, :graduation_location, :league_id)");
+
+    query.bindValue(":firstname", QVariant(item.getFirstname()));
+    query.bindValue(":lastname", QVariant(item.getLastname()));
+    query.bindValue(":graduation_location", QVariant(item.getGraduationLocation()));
+    query.bindValue("league_id", QVariant(item.getLeague()->getId()));
+
+    query.exec();
+
+    auto result = query.lastInsertId().toInt();
+
+    conn_.close();
+
+    return this->getById(result);
+
     return nullptr;
 }
 
@@ -19,7 +39,20 @@ bool CoachRepository::remove(const Coach &item) {
 }
 
 bool CoachRepository::removeById(const int &id) {
-    return false;
+
+    conn_.open();
+
+    QSqlQuery query;
+
+    query.prepare("DELETE FROM Coaches WHERE id=:id");
+
+    query.bindValue(":id", id);
+
+    auto result = query.exec();
+
+    conn_.close();
+
+    return result;
 }
 
 std::shared_ptr<Coach> CoachRepository::getById(const int &id) {

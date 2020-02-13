@@ -21,6 +21,7 @@ private:
     std::shared_ptr<League> league_;
 
 private:
+    Q_PROPERTY(int id READ getId);
     Q_PROPERTY(QString firstname READ getFirstname WRITE setFirstname NOTIFY firstnameChanged);
     Q_PROPERTY(QString lastname READ getLastname WRITE setLastname NOTIFY lastnameChanged);
     Q_PROPERTY(QString graduationLocation READ getGraduationLocation WRITE setGraduationLocation NOTIFY graduationLocationChanged);
@@ -47,12 +48,12 @@ public:
         graduationLocation_("") {}
 
 public:
-    int getId() {return id_;}
-    QString getFirstname() {return firstname_;}
-    QString getLastname() {return lastname_;}
-    QString getGraduationLocation() {return graduationLocation_;}
-    std::shared_ptr<League> getLeague() {return league_;}
-    std::shared_ptr<QVector<std::shared_ptr<Title>>> getTitles() {return titles_;}
+    int getId() const {return id_;}
+    QString getFirstname() const {return firstname_;}
+    QString getLastname() const{return lastname_;}
+    QString getGraduationLocation() const {return graduationLocation_;}
+    std::shared_ptr<League> getLeague() const {return league_;}
+    std::shared_ptr<QVector<std::shared_ptr<Title>>> getTitles() const {return titles_;}
 
 public:
     void setTitles(const std::shared_ptr<QVector<std::shared_ptr<Title>>>& titles) {

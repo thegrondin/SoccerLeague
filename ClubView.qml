@@ -285,6 +285,13 @@ Page {
                                 anchors.verticalCenter: parent.verticalCenter
                             }
 
+                            Button {
+                                text: "Supprimer"
+                                onClicked: {
+                                    TitlesViewModelContext.deleteTitle(modelData.id)
+                                }
+                            }
+
                         }
 
                     }

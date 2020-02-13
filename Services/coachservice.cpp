@@ -25,3 +25,14 @@ std::shared_ptr<QVector<std::shared_ptr<Coach>>> CoachService::getCoaches() {
     return coachRepository_.getAll(std::unordered_map<QString, QString>());
 
 }
+
+void CoachService::save(const Coach& coach) {
+
+    coachRepository_.add(coach);
+}
+
+bool CoachService::remove(const int& id) {
+    coachRepository_.removeById(id);
+
+    return true;
+}

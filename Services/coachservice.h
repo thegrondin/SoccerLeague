@@ -32,7 +32,7 @@ namespace SoccerLeague { namespace Services {
         std::shared_ptr<Coach> getCoach(const int& );
         std::shared_ptr<QVector<std::shared_ptr<Coach>>> getCoaches();
         bool remove(const int&);
-        void save(const Coach& club);
+        void save(const Coach&);
     };
 }}
 

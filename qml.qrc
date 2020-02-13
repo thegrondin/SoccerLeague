@@ -14,5 +14,8 @@
         <file>AddPlayerView.qml</file>
         <file>ClubView-other.qml</file>
         <file>AddTitleView.qml</file>
+        <file>CoachView.qml</file>
+        <file>AddCoachView.qml</file>
+        <file>CoachDetailsView.qml</file>
     </qresource>
 </RCC>

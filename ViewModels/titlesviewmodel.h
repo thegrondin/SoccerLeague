@@ -27,11 +27,19 @@ public:
 signals:
     void titleSelectedEvent(const int &id);
     void titlesChangedEvent();
+    void coachTitlesChangedEvent();
 
 public slots:
     void setClub(const int& id) {
+        currentTitle_->setCoach(std::make_shared<Coach>());
         currentTitle_->setClub(std::make_shared<Club>());
         currentTitle_->getClub()->setId(id);
+    }
+
+    void setCoach(const int& id) {
+        currentTitle_->setClub(std::make_shared<Club>());
+        currentTitle_->setCoach(std::make_shared<Coach>());
+        currentTitle_->getCoach()->setId(id);
     }
 
 public:
@@ -40,12 +48,24 @@ public:
     }
 
     Q_INVOKABLE void saveTitle() {
-        titleService_.saveFromClub(*currentTitle_.get());
-        emit titlesChangedEvent();
+        auto result = titleService_.save(*currentTitle_.get());
+
+        if (result->getClub() && result->getClub()->getId() != 0) {
+            emit titlesChangedEvent();
+        }
+        else {
+            emit coachTitlesChangedEvent();
+        }
+
     }
 
     Q_INVOKABLE void clear() {
         currentTitle_ = std::make_shared<Title>();
+    }
+
+    Q_INVOKABLE void deleteTitle(const int& id) {
+        titleService_.remove(id);
+        emit titlesChangedEvent();
     }
 
 };

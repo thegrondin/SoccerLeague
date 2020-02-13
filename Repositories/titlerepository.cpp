@@ -14,21 +14,29 @@ std::shared_ptr<Title> TitleRepository::add(const Title &item) {
 
     conn_.open();
 
-    int clubId = 0;
 
-    if (item.getClub() && item.getClub()->getId()) {
-        clubId = item.getClub()->getId();
-    }
 
     QSqlQuery query;
 
-    query.prepare("INSERT INTO Titles (name, date, club_id)"
-                  "VALUES (:name, :date, :club_id)");
+    if (item.getClub() && item.getClub()->getId() != 0) {
 
-    query.bindValue(":name", QVariant(item.getName()));
-    query.bindValue(":date", QVariant(item.getDate()));
-    query.bindValue(":club_id", QVariant(clubId));
-    //query.bindValue(":coach_id", )
+
+
+        query.prepare("INSERT INTO Titles (name, date, club_id)"
+                      "VALUES (:name, :date, :club_id)");
+
+        query.bindValue(":name", QVariant(item.getName()));
+        query.bindValue(":date", QVariant(item.getDate()));
+        query.bindValue(":club_id", QVariant(item.getClub()->getId()));
+    }
+    else {
+        query.prepare("INSERT INTO Titles (name, date, coach_id)"
+                      "VALUES (:name, :date, :coach_id)");
+
+        query.bindValue(":name", QVariant(item.getName()));
+        query.bindValue(":date", QVariant(item.getDate()));
+        query.bindValue(":coach_id", QVariant(item.getCoach()->getId()));
+    }
 
     query.exec();
 
@@ -67,7 +75,16 @@ bool TitleRepository::remove(const Title &item) {
 }
 
 bool TitleRepository::removeById(const int &id) {
-    return false;
+
+    conn_.open();
+
+    QSqlQuery query;
+
+    query.prepare("DELETE FROM Titles WHERE id=:id");
+
+    query.bindValue(":id", QVariant(id));
+
+    return query.exec();
 }
 
 std::shared_ptr<Title> TitleRepository::getById(const int &id) {
@@ -116,8 +133,12 @@ TitleRepository::getAll(const std::unordered_map<QString, QString> &filters) {
             pTitle->setName(query.value(1).toString());
             pTitle->setDate(query.value(2).toDate());
 
-            pClub->setId(query.value(3).toInt());
-            pCoach->setId(query.value(4).toInt());
+            if (query.value(3).toInt() != 0) {
+                pClub->setId(query.value(3).toInt());
+            }
+            else {
+                pCoach->setId(query.value(4).toInt());
+            }
 
             pTitle->setClub(pClub);
             pTitle->setCoach(pCoach);

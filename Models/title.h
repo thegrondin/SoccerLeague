@@ -21,6 +21,7 @@ private:
     std::shared_ptr<Coach> coach_;
 
 private:
+    Q_PROPERTY(int id READ getId)
     Q_PROPERTY(QString name READ getName WRITE setName NOTIFY nameChanged);
     Q_PROPERTY(QDate date READ getDate WRITE setDate NOTIFY dateChanged);
     Q_PROPERTY(Club* club READ getClub);
@@ -38,6 +39,7 @@ public:
     QDate getDate() const {return date_;}
     int getId() const {return id_;}
     Club* getClub() const {return club_.get(); }
+    Coach* getCoach() const {return coach_.get();}
 
     void setId(const int& id) {id_=id;}
     void setClub(const std::shared_ptr<Club>& club) {club_ = club;}
