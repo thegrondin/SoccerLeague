@@ -8,17 +8,15 @@
 
 #include "ModelsHeader.h"
 
-#include "basemodel.h"
 #include "stadium.h"
 #include "clubstaff.h"
-#include "title.h"
-
 
 
 namespace SoccerLeague { namespace Models {
 
 class Player;
 class League;
+class Title;
 class Club : public QObject
 {
     Q_OBJECT
@@ -28,7 +26,7 @@ private:
     std::shared_ptr<Stadium> stadium_;
     std::shared_ptr<League> league_;
     QVector<Staff> clubStaff_;
-    QVector<Title> titles_;
+    std::shared_ptr<QVector<std::shared_ptr<Title>>> titles_;
     QString history_;
     QString color_;
     QDateTime createdAt_;
@@ -77,11 +75,11 @@ public:
         clubEffective_ = other.clubEffective_;
     }
 
-    QVector<Title> getTitles() const {
+   std::shared_ptr<QVector<std::shared_ptr<Title>>> getTitles() const {
         return titles_;
     }
 
-    void setTitles(const QVector<Title>& titles) {
+    void setTitles(const std::shared_ptr<QVector<std::shared_ptr<Title>>>& titles) {
         titles_ = titles;
     }
 

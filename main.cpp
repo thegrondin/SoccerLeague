@@ -27,8 +27,11 @@
 #include "Services/stadiumservice.h"
 #include "ViewModels/playeractionsviewmodel.h"
 #include <QSqlQuery>
-
+#include "Repositories/titlerepository.h"
+#include "ViewModels/titlesviewmodel.h"
 #include "Repositories/repository.h"
+#include "Repositories/titlerepository.h"
+#include "Services/titleservice.h"
 
 using namespace SoccerLeague::Models;
 using namespace SoccerLeague::Repositories;
@@ -83,30 +86,39 @@ int main(int argc, char *argv[])
     StadiumRepository stadiumRepo(conn);
     CoachRepository coachRepo(conn);
     LeagueRepository leagueRepo(conn);
+    TitleRepository titleRepo(conn);
+
 
     PlayerService playerService(clubRepo, playerJourneyRepo, playerRepo);
-    ClubService clubService(clubRepo, stadiumRepo, playerRepo);
+    ClubService clubService(clubRepo, stadiumRepo, playerRepo, titleRepo);
     LeagueService leagueService(clubRepo, coachRepo, leagueRepo);
     StadiumService stadiumService(stadiumRepo);
-
+    TitleService titleService(titleRepo);
 
     PlayerViewModel* playerViewModel = new PlayerViewModel(playerService);
     ClubsViewModel* clubsViewModel = new ClubsViewModel(clubService);
     LeaguesViewModel* leagueViewModel = new LeaguesViewModel(leagueService);
     ClubActionsViewModel* clubActionsViewModel = new ClubActionsViewModel(clubService, stadiumRepo);
     PlayerActionsViewModel* playerActionsViewModel = new PlayerActionsViewModel(playerService);
+    TitlesViewModel* titleViewModel = new TitlesViewModel(titleService);
 
     QObject::connect(&(*clubActionsViewModel), SIGNAL(clubSavedEvent()), &(*leagueViewModel), SLOT(refreshClubs()));
     QObject::connect(&(*playerActionsViewModel), SIGNAL(playersUpdatedEvent()), &(*playerViewModel), SLOT(refreshPlayers()));
 
     QObject::connect(&(*clubsViewModel), SIGNAL(clubSelectedEvent(int)), &(*playerViewModel), SLOT(setPlayersFromClubId(int)));
     QObject::connect(&(*clubsViewModel), SIGNAL(clubSelectedEvent(int)), &(*playerActionsViewModel), SLOT(setClub(int)));
+    QObject::connect(&(*clubsViewModel), SIGNAL(clubSelectedEvent(int)), &(*titleViewModel), SLOT(setClub(int)));
+
+    QObject::connect(&(*titleViewModel), SIGNAL(titlesChangedEvent()), &(*clubsViewModel), SLOT(refreshCurrent()));
+
 
     engine.rootContext()->setContextProperty("leagueViewModelContext", leagueViewModel);
     engine.rootContext()->setContextProperty("clubViewModelContext", clubsViewModel);
     engine.rootContext()->setContextProperty("clubActionsViewModelContext", clubActionsViewModel);
     engine.rootContext()->setContextProperty("playersViewModelContext", playerViewModel);
     engine.rootContext()->setContextProperty("playerActionsViewModelContext", playerActionsViewModel);
+    engine.rootContext()->setContextProperty("TitlesViewModelContext", titleViewModel);
+
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
@@ -124,6 +136,7 @@ int main(int argc, char *argv[])
     delete leagueViewModel;
     delete clubActionsViewModel;
     delete playerActionsViewModel;
+    delete titleViewModel;
 
     return exec;
 }

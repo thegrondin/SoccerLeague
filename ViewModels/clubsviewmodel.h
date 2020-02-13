@@ -46,11 +46,18 @@ namespace SoccerLeague { namespace ViewModels {
         std::shared_ptr<Club> currentClub_;
 
         Q_PROPERTY(QStringListModel* clubs READ getClubs);
-        Q_PROPERTY(Club* club READ getClub);
+        Q_PROPERTY(Club* club READ getClub NOTIFY clubChanged);
         Q_PROPERTY(QList<PlayerListModel*> players READ getPlayers);
+        Q_PROPERTY(QList<Title*> titles READ getTitles NOTIFY clubChanged);
 
     signals:
         void clubSelectedEvent(const int& id);
+        void clubChanged();
+    public slots:
+        void refreshCurrent() {
+            currentClub_ = clubsService_.getClub(currentClub_->getId());
+            clubChanged();
+        }
 
     public:
 
@@ -84,6 +91,16 @@ namespace SoccerLeague { namespace ViewModels {
             return datalist;
         }
 
+        QList<Title*> getTitles() {
+            QList<Title*> datalist;
+
+            for (auto title : *currentClub_->getTitles()) {
+                datalist.append(title.get());
+            }
+
+            return datalist;
+        }
+
         Club* getClub() {
             return currentClub_.get();
         }
@@ -92,6 +109,8 @@ namespace SoccerLeague { namespace ViewModels {
             currentClub_ = clubsService_.getClub(id);
             emit clubSelectedEvent(id);
         }
+
+
 
 
 

@@ -22,3 +22,5 @@ std::shared_ptr<QVector<std::shared_ptr<League>>> LeagueService::getLeagues() {
 
     return leagueRepository_.getAll(std::unordered_map<QString, QString>());
 }
+
+

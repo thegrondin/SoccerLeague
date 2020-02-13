@@ -22,7 +22,7 @@ public:
     bool remove(const Title& item) override;
     bool removeById(const int& id) override;
     std::shared_ptr<Title> getById(const int& id) override;
-    std::shared_ptr<Title> getByProperty(const QString& propertyName) {};
+    std::shared_ptr<Title> getByProperty(const QString& propertyName) override;
     std::shared_ptr<QVector<Title>> getAll() override;
     std::shared_ptr<QVector<std::shared_ptr<Title>>> getAll(const std::unordered_map<QString, QString> &filters) override;
 

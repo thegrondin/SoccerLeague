@@ -12,5 +12,7 @@
         <file>SuccessView.qml</file>
         <file>AddClubView.qml</file>
         <file>AddPlayerView.qml</file>
+        <file>ClubView-other.qml</file>
+        <file>AddTitleView.qml</file>
     </qresource>
 </RCC>

@@ -31,14 +31,17 @@ SOURCES += \
         Repositories/stadiumrepository.cpp \
         Repositories/titlerepository.cpp \
         Services/clubservice.cpp \
+        Services/coachservice.cpp \
         Services/leagueservice.cpp \
         Services/playerservice.cpp \
         Services/stadiumservice.cpp \
+        Services/titleservice.cpp \
         ViewModels/clubactionsviewmodel.cpp \
         ViewModels/clubsviewmodel.cpp \
         ViewModels/leaguesviewmodel.cpp \
         ViewModels/playeractionsviewmodel.cpp \
         ViewModels/playerviewmodel.cpp \
+        ViewModels/titlesviewmodel.cpp \
         main.cpp \
         test.cpp
 
@@ -83,14 +86,17 @@ HEADERS += \
     Repositories/stadiumrepository.h \
     Repositories/titlerepository.h \
     Services/clubservice.h \
+    Services/coachservice.h \
     Services/leagueservice.h \
     Services/playerservice.h \
     Services/stadiumservice.h \
+    Services/titleservice.h \
     ViewModels/clubactionsviewmodel.h \
     ViewModels/clubsviewmodel.h \
     ViewModels/leaguesviewmodel.h \
     ViewModels/playeractionsviewmodel.h \
     ViewModels/playerviewmodel.h \
+    ViewModels/titlesviewmodel.h \
     test.h
 
 DISTFILES += \

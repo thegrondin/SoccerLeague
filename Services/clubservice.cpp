@@ -17,6 +17,8 @@ std::shared_ptr<Club> ClubService::getClub(const int& id) {
 
     club->setStadium(stadiumRepository_.getById(club->getStadium()->getId()));
 
+    club->setTitles(titleRepository_.getAll(filter));
+
     return club;
 }
 

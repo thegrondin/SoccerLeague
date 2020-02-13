@@ -1,26 +1,29 @@
 #ifndef TITLE_H
 #define TITLE_H
 
-#include "QString"
-#include "QDateTime"
+#include <QString>
+#include <QDateTime>
 #include <memory>
 #include "ModelsHeader.h"
 
 namespace SoccerLeague { namespace Models {
-class Title
+class Club;
+class Coach;
+class Player;
+class Title : public QObject
 {
+    Q_OBJECT
 private:
     int id_;
     QString name_;
     QDate date_;
     std::shared_ptr<Club> club_;
     std::shared_ptr<Coach> coach_;
-    std::shared_ptr<Player> player_;
 
 private:
     Q_PROPERTY(QString name READ getName WRITE setName NOTIFY nameChanged);
     Q_PROPERTY(QDate date READ getDate WRITE setDate NOTIFY dateChanged);
-
+    Q_PROPERTY(Club* club READ getClub);
 signals:
     void nameChanged(const QString& name);
     void dateChanged(const QDate& date);
@@ -29,12 +32,12 @@ public:
     Title(const int& id, QString& name, const QDate& date) : id_(id), name_(name), date_(date)
     { }
 
-
     Title() : id_(0), name_(""), date_(QDate()) {}
 
-    QString getName() {return name_;}
-    QDate getDate() {return date_;}
-    int getId() {return id_;}
+    QString getName() const {return name_;}
+    QDate getDate() const {return date_;}
+    int getId() const {return id_;}
+    Club* getClub() const {return club_.get(); }
 
     void setId(const int& id) {id_=id;}
     void setClub(const std::shared_ptr<Club>& club) {club_ = club;}

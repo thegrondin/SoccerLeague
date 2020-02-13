@@ -8,6 +8,7 @@ namespace SoccerLeague { namespace Models {
 
 class Record;
 class League;
+class Title;
 class Coach : public QObject
 {
    Q_OBJECT
@@ -16,7 +17,7 @@ private:
     QString firstname_;
     QString lastname_;
     QString graduationLocation_;
-    std::shared_ptr<QVector<std::shared_ptr<Record>>> titles_;
+    std::shared_ptr<QVector<std::shared_ptr<Title>>> titles_;
     std::shared_ptr<League> league_;
 
 private:
@@ -51,9 +52,10 @@ public:
     QString getLastname() {return lastname_;}
     QString getGraduationLocation() {return graduationLocation_;}
     std::shared_ptr<League> getLeague() {return league_;}
+    std::shared_ptr<QVector<std::shared_ptr<Title>>> getTitles() {return titles_;}
 
 public:
-    void setTitles(const std::shared_ptr<QVector<std::shared_ptr<Record>>>& titles) {
+    void setTitles(const std::shared_ptr<QVector<std::shared_ptr<Title>>>& titles) {
         titles_ = titles;
     }
 

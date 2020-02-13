@@ -12,8 +12,54 @@ std::shared_ptr<Title> TitleRepository::update(const Title &item){
 
 std::shared_ptr<Title> TitleRepository::add(const Title &item) {
 
+    conn_.open();
 
-    return nullptr;
+    int clubId = 0;
+
+    if (item.getClub() && item.getClub()->getId()) {
+        clubId = item.getClub()->getId();
+    }
+
+    QSqlQuery query;
+
+    query.prepare("INSERT INTO Titles (name, date, club_id)"
+                  "VALUES (:name, :date, :club_id)");
+
+    query.bindValue(":name", QVariant(item.getName()));
+    query.bindValue(":date", QVariant(item.getDate()));
+    query.bindValue(":club_id", QVariant(clubId));
+    //query.bindValue(":coach_id", )
+
+    query.exec();
+
+    auto result = query.lastInsertId().toInt();
+
+    conn_.close();
+
+    return this->getById(result);
+
+    /*
+     *
+     * conn_.open();
+
+    QSqlQuery query;
+
+    query.prepare("INSERT INTO Players (firstname, lastname, weight, birth_city, club_id)"
+                  "VALUES (:firstname, :lastname, :weight, :birth_city, :club_id)");
+
+    query.bindValue(":firstname", QVariant(item.getFirstname()));
+    query.bindValue(":lastname", QVariant(item.getLastname()));
+    query.bindValue(":weight", QVariant(item.getWeight()));
+    query.bindValue("birth_city", QVariant(item.getBirthCity()));
+    query.bindValue(":club_id", QVariant(item.getClub()->getId()));
+
+    query.exec();
+
+    auto result = query.lastInsertId().toInt();
+
+    conn_.close();
+
+    return this->getById(result);*/
 }
 
 bool TitleRepository::remove(const Title &item) {
@@ -30,6 +76,10 @@ std::shared_ptr<Title> TitleRepository::getById(const int &id) {
 
 }
 
+std::shared_ptr<Title> TitleRepository::getByProperty(const QString &propertyName) {
+    return nullptr;
+}
+
 std::shared_ptr<QVector<std::shared_ptr<Title>>>
 TitleRepository::getAll(const std::unordered_map<QString, QString> &filters) {
     conn_.open();
@@ -39,7 +89,7 @@ TitleRepository::getAll(const std::unordered_map<QString, QString> &filters) {
     if (conn_.get().isOpen()) {
 
         QString rawSelect = QueryBuilder::createSelect(basic_query_t {
-           .tablename = "Stadiums",
+           .tablename = "Titles",
            .columns = QVector<QString> {"id", "name", "date", "club_id", "coach_id"},
            .filters = filters,
            .additional_args = ""
